@@ -110,7 +110,13 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 
 ### 2.3 Reduce-Motion clamp
 
-- [ ] 2.3.1 Helper: `effectiveWPMCap()` returns 10 if `UIAccessibility.isReduceMotionEnabled` else 20 (FR-22). Used by Settings and Transmitter at playback time.
+- [x] 2.3.1 `AccessibilityFlags` value type (Equatable, Hashable, Sendable) with `isReduceMotionEnabled: Bool` and `maxCharacterWPM: Int` (caps at 10 if Reduce Motion is on, 20 otherwise; FR-22). `current()` static factory behind `#if canImport(UIKit)` reads `UIAccessibility.isReduceMotionEnabled`. Tests construct snapshots directly. 3 tests passing.
+
+### 2.4 Clock (preparation for 2.2)
+
+- [x] 2.4.1 `Clock` protocol: `nowMs: Int` and `schedule(at:_:) -> ClockSubscription` for absolute-deadline scheduling per FR-12.
+- [x] 2.4.2 `DispatchClock` production impl using `DispatchSourceTimer` with `.strict` flag and absolute deadlines anchored to a single `referenceTime` captured at init. Avoids the cumulative drift of incremental sleeps.
+- [x] 2.4.3 `ClockSubscription` is thread-safe and cancel-idempotent. Smoke tests verify monotonic `nowMs`, fires-near-target, cancel-prevents-fire, double-cancel-safe. (Tight jitter tolerance is FR-12's on-device measurement, not these unit tests.)
 
 ## 3. UI — SwiftUI
 
