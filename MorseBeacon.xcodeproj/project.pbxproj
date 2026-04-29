@@ -1,0 +1,557 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		200A000000000000000000A0 /* ElementKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100A000000000000000000A0 /* ElementKind.swift */; };
+		200A000000000000000000A1 /* MorseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100A000000000000000000A1 /* MorseEncoder.swift */; };
+		200A000000000000000000A2 /* MorseRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100A000000000000000000A2 /* MorseRenderer.swift */; };
+		200A000000000000000000A3 /* MorseSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100A000000000000000000A3 /* MorseSymbol.swift */; };
+		200A000000000000000000A4 /* MorseTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100A000000000000000000A4 /* MorseTable.swift */; };
+		200A000000000000000000A5 /* ScheduleTick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100A000000000000000000A5 /* ScheduleTick.swift */; };
+		200A000000000000000000A6 /* TimedElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100A000000000000000000A6 /* TimedElement.swift */; };
+		200A000000000000000000A7 /* TimingProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100A000000000000000000A7 /* TimingProfile.swift */; };
+		200A000000000000000000A8 /* TransmissionSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100A000000000000000000A8 /* TransmissionSchedule.swift */; };
+		200A000000000000000000A9 /* ValidatedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100A000000000000000000A9 /* ValidatedMessage.swift */; };
+		200B000000000000000000B0 /* AccessibilityFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B000000000000000000B0 /* AccessibilityFlags.swift */; };
+		200B000000000000000000B1 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B000000000000000000B1 /* Clock.swift */; };
+		200B000000000000000000B2 /* ScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B000000000000000000B2 /* ScreenController.swift */; };
+		200B000000000000000000B3 /* ScreenProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B000000000000000000B3 /* ScreenProxy.swift */; };
+		200B000000000000000000B4 /* Transmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B000000000000000000B4 /* Transmitter.swift */; };
+		200B000000000000000000B5 /* TransmitterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B000000000000000000B5 /* TransmitterState.swift */; };
+		200B000000000000000000B6 /* UIKitScreenProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B000000000000000000B6 /* UIKitScreenProxy.swift */; };
+		200D000000000000000000D0 /* MorseBeaconApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D0 /* MorseBeaconApp.swift */; };
+		200D000000000000000000D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D2 /* Assets.xcassets */; };
+		200D000000000000000000D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D3 /* Preview Assets.xcassets */; };
+		200E000000000000000000E0 /* MorseBeaconTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100E000000000000000000E0 /* MorseBeaconTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BBA0000000000000000000A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1A1A1A1A1A1A1A1A1A1A1A1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B1B1B1B1B1B1B1B1B1B1B1B1;
+			remoteInfo = MorseBeacon;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		100A000000000000000000A0 /* ElementKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementKind.swift; sourceTree = "<group>"; };
+		100A000000000000000000A1 /* MorseEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseEncoder.swift; sourceTree = "<group>"; };
+		100A000000000000000000A2 /* MorseRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseRenderer.swift; sourceTree = "<group>"; };
+		100A000000000000000000A3 /* MorseSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseSymbol.swift; sourceTree = "<group>"; };
+		100A000000000000000000A4 /* MorseTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseTable.swift; sourceTree = "<group>"; };
+		100A000000000000000000A5 /* ScheduleTick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTick.swift; sourceTree = "<group>"; };
+		100A000000000000000000A6 /* TimedElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimedElement.swift; sourceTree = "<group>"; };
+		100A000000000000000000A7 /* TimingProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimingProfile.swift; sourceTree = "<group>"; };
+		100A000000000000000000A8 /* TransmissionSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransmissionSchedule.swift; sourceTree = "<group>"; };
+		100A000000000000000000A9 /* ValidatedMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidatedMessage.swift; sourceTree = "<group>"; };
+		100B000000000000000000B0 /* AccessibilityFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityFlags.swift; sourceTree = "<group>"; };
+		100B000000000000000000B1 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
+		100B000000000000000000B2 /* ScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenController.swift; sourceTree = "<group>"; };
+		100B000000000000000000B3 /* ScreenProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenProxy.swift; sourceTree = "<group>"; };
+		100B000000000000000000B4 /* Transmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transmitter.swift; sourceTree = "<group>"; };
+		100B000000000000000000B5 /* TransmitterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransmitterState.swift; sourceTree = "<group>"; };
+		100B000000000000000000B6 /* UIKitScreenProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitScreenProxy.swift; sourceTree = "<group>"; };
+		100D000000000000000000D0 /* MorseBeaconApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseBeaconApp.swift; sourceTree = "<group>"; };
+		100D000000000000000000D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		100D000000000000000000D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		100D000000000000000000D3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		100E000000000000000000E0 /* MorseBeaconTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseBeaconTests.swift; sourceTree = "<group>"; };
+		100F000000000000000000F0 /* MorseBeacon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MorseBeacon.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		100F000000000000000000F1 /* MorseBeaconTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MorseBeaconTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E10000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E20000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F00000000000000000000001 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				F00000000000000000000003 /* MorseBeacon */,
+				F00000000000000000000008 /* MorseBeaconTests */,
+				F00000000000000000000002 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F00000000000000000000002 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				100F000000000000000000F0 /* MorseBeacon.app */,
+				100F000000000000000000F1 /* MorseBeaconTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F00000000000000000000003 /* MorseBeacon */ = {
+			isa = PBXGroup;
+			children = (
+				100D000000000000000000D0 /* MorseBeaconApp.swift */,
+				F00000000000000000000004 /* Core */,
+				F00000000000000000000005 /* Runtime */,
+				F00000000000000000000006 /* UI */,
+				100D000000000000000000D2 /* Assets.xcassets */,
+				F00000000000000000000007 /* PreviewContent */,
+				100D000000000000000000D1 /* Info.plist */,
+			);
+			path = MorseBeacon;
+			sourceTree = "<group>";
+		};
+		F00000000000000000000004 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				100A000000000000000000A0 /* ElementKind.swift */,
+				100A000000000000000000A1 /* MorseEncoder.swift */,
+				100A000000000000000000A2 /* MorseRenderer.swift */,
+				100A000000000000000000A3 /* MorseSymbol.swift */,
+				100A000000000000000000A4 /* MorseTable.swift */,
+				100A000000000000000000A5 /* ScheduleTick.swift */,
+				100A000000000000000000A6 /* TimedElement.swift */,
+				100A000000000000000000A7 /* TimingProfile.swift */,
+				100A000000000000000000A8 /* TransmissionSchedule.swift */,
+				100A000000000000000000A9 /* ValidatedMessage.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		F00000000000000000000005 /* Runtime */ = {
+			isa = PBXGroup;
+			children = (
+				100B000000000000000000B0 /* AccessibilityFlags.swift */,
+				100B000000000000000000B1 /* Clock.swift */,
+				100B000000000000000000B2 /* ScreenController.swift */,
+				100B000000000000000000B3 /* ScreenProxy.swift */,
+				100B000000000000000000B4 /* Transmitter.swift */,
+				100B000000000000000000B5 /* TransmitterState.swift */,
+				100B000000000000000000B6 /* UIKitScreenProxy.swift */,
+			);
+			path = Runtime;
+			sourceTree = "<group>";
+		};
+		F00000000000000000000006 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		F00000000000000000000007 /* PreviewContent */ = {
+			isa = PBXGroup;
+			children = (
+				100D000000000000000000D3 /* Preview Assets.xcassets */,
+			);
+			path = PreviewContent;
+			sourceTree = "<group>";
+		};
+		F00000000000000000000008 /* MorseBeaconTests */ = {
+			isa = PBXGroup;
+			children = (
+				100E000000000000000000E0 /* MorseBeaconTests.swift */,
+			);
+			path = MorseBeaconTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B1B1B1B1B1B1B1B1B1B1B1B1 /* MorseBeacon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C1C1C1C1C1C1C1C1C1C1C1C1 /* Build configuration list for PBXNativeTarget "MorseBeacon" */;
+			buildPhases = (
+				E10000000000000000000001 /* Sources */,
+				E10000000000000000000002 /* Frameworks */,
+				E10000000000000000000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MorseBeacon;
+			productName = MorseBeacon;
+			productReference = 100F000000000000000000F0 /* MorseBeacon.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B2B2B2B2B2B2B2B2B2B2B2B2 /* MorseBeaconTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C2C2C2C2C2C2C2C2C2C2C2C2 /* Build configuration list for PBXNativeTarget "MorseBeaconTests" */;
+			buildPhases = (
+				E20000000000000000000001 /* Sources */,
+				E20000000000000000000002 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BBA0000000000000000000A1 /* PBXTargetDependency */,
+			);
+			name = MorseBeaconTests;
+			productName = MorseBeaconTests;
+			productReference = 100F000000000000000000F1 /* MorseBeaconTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A1A1A1A1A1A1A1A1A1A1A1A1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					B1B1B1B1B1B1B1B1B1B1B1B1 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					B2B2B2B2B2B2B2B2B2B2B2B2 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = B1B1B1B1B1B1B1B1B1B1B1B1;
+					};
+				};
+			};
+			buildConfigurationList = C0C0C0C0C0C0C0C0C0C0C0C0 /* Build configuration list for PBXProject "MorseBeacon" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F00000000000000000000001;
+			productRefGroup = F00000000000000000000002 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B1B1B1B1B1B1B1B1B1B1B1B1 /* MorseBeacon */,
+				B2B2B2B2B2B2B2B2B2B2B2B2 /* MorseBeaconTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E10000000000000000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				200D000000000000000000D3 /* Preview Assets.xcassets in Resources */,
+				200D000000000000000000D2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E10000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				200A000000000000000000A0 /* ElementKind.swift in Sources */,
+				200A000000000000000000A1 /* MorseEncoder.swift in Sources */,
+				200A000000000000000000A2 /* MorseRenderer.swift in Sources */,
+				200A000000000000000000A3 /* MorseSymbol.swift in Sources */,
+				200A000000000000000000A4 /* MorseTable.swift in Sources */,
+				200A000000000000000000A5 /* ScheduleTick.swift in Sources */,
+				200A000000000000000000A6 /* TimedElement.swift in Sources */,
+				200A000000000000000000A7 /* TimingProfile.swift in Sources */,
+				200A000000000000000000A8 /* TransmissionSchedule.swift in Sources */,
+				200A000000000000000000A9 /* ValidatedMessage.swift in Sources */,
+				200B000000000000000000B0 /* AccessibilityFlags.swift in Sources */,
+				200B000000000000000000B1 /* Clock.swift in Sources */,
+				200B000000000000000000B2 /* ScreenController.swift in Sources */,
+				200B000000000000000000B3 /* ScreenProxy.swift in Sources */,
+				200B000000000000000000B4 /* Transmitter.swift in Sources */,
+				200B000000000000000000B5 /* TransmitterState.swift in Sources */,
+				200B000000000000000000B6 /* UIKitScreenProxy.swift in Sources */,
+				200D000000000000000000D0 /* MorseBeaconApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E20000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				200E000000000000000000E0 /* MorseBeaconTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BBA0000000000000000000A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B1B1B1B1B1B1B1B1B1B1B1B1 /* MorseBeacon */;
+			targetProxy = BBA0000000000000000000A2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D0D0D0D0D0D0D0D0D0D0D0D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+			};
+			name = Debug;
+		};
+		D0D0D0D0D0D0D0D0D0D0D0D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_STRICT_CONCURRENCY = targeted;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D1D1D1D1D1D1D1D1D1D1D1D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MorseBeacon/PreviewContent\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MorseBeacon/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.morsebeacon;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D1D1D1D1D1D1D1D1D1D1D1D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MorseBeacon/PreviewContent\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = MorseBeacon/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.morsebeacon;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		D2D2D2D2D2D2D2D2D2D2D2D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.morsebeacon.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MorseBeacon.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MorseBeacon";
+			};
+			name = Debug;
+		};
+		D2D2D2D2D2D2D2D2D2D2D2D3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.morsebeacon.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MorseBeacon.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MorseBeacon";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C0C0C0C0C0C0C0C0C0C0C0C0 /* Build configuration list for PBXProject "MorseBeacon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0D0D0D0D0D0D0D0D0D0D0D0 /* Debug */,
+				D0D0D0D0D0D0D0D0D0D0D0D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C1C1C1C1C1C1C1C1C1C1C1C1 /* Build configuration list for PBXNativeTarget "MorseBeacon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1D1D1D1D1D1D1D1D1D1D1D1 /* Debug */,
+				D1D1D1D1D1D1D1D1D1D1D1D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C2C2C2C2C2C2C2C2C2C2C2C2 /* Build configuration list for PBXNativeTarget "MorseBeaconTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D2D2D2D2D2D2D2D2D2D2D2D2 /* Debug */,
+				D2D2D2D2D2D2D2D2D2D2D2D3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A1A1A1A1A1A1A1A1A1A1A1A1 /* Project object */;
+}
