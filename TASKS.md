@@ -24,7 +24,7 @@ it by path.
 - [ ] 0.7 Decide: extract `Core/` as a local SwiftPM package at `Core-Package/` for fast `swift test` loop if Xcode test turnaround > 10s (per CLAUDE.md "What to run"). Defer until measured. When/if done, `MorseBeacon/Core/` is removed and the app target depends on the package.
   - *Note (2026-04-22):* a development-only `Package.swift` overlay exists at repo root pointing SwiftPM at `MorseBeacon/Core/` and `MorseBeaconTests/Core/` via explicit `path:`. This is NOT the 0.7 extraction — no files are moved, no `Core-Package/` exists. The overlay lets Core tests run via `swift test` before the Xcode project exists. It coexists with the future Xcode target and will be replaced by the real package if/when 0.7 is triggered.
 - [x] 0.8 Add `.gitignore` (Xcode, SwiftPM, DerivedData, xcuserdata, `.DS_Store`). *(commit 191df2b)*
-- [ ] 0.9 Write `scripts/check-core-purity.sh`: greps `MorseBeacon/Core/` for forbidden tokens (`import UIKit`, `import SwiftUI`, `Foundation.Timer`, `Timer(`, `NSTimer`, `DispatchQueue`, `CFAbsoluteTime`). Exit non-zero on any hit. Must be executable.
+- [x] 0.9 `scripts/check-core-purity.sh` greps `MorseBeacon/Core/` for forbidden tokens. Final list: `import UIKit`, `import SwiftUI`, `import Combine`, `import Dispatch`, `Foundation.Timer`, `NSTimer`, `Timer(`, `DispatchQueue`, `DispatchSource`, `DispatchTime`, `CFAbsoluteTime`, `CFRunLoop`, `RunLoop.`. Exit non-zero on any hit. Currently passing on 10 Core files.
 - [ ] 0.10 Write `scripts/check-screen-isolation.sh`: greps the entire app target for `UIScreen` and `isIdleTimerDisabled`, allowing matches only in `MorseBeacon/Runtime/ScreenController.swift`. Exit non-zero otherwise.
 - [ ] 0.11 CI: `.github/workflows/ci.yml` running, in order: `scripts/check-core-purity.sh`, `scripts/check-screen-isolation.sh`, `swift-format lint --strict`, `xcodebuild test` on macOS runner against iPhone 15 simulator. Fail on any warning (treat warnings as errors at project level).
 
@@ -84,8 +84,8 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 
 ### 1.7 Core coverage gate
 
-- [ ] 1.7.1 Verify ≥90% line coverage for `Core/` (NFR-3).
-- [ ] 1.7.2 Verify `Core/` has zero imports of UIKit/SwiftUI/`Foundation.Timer` via `scripts/check-core-purity.sh` (run in CI per 0.11).
+- [x] 1.7.1 Verify ≥90% line coverage for `Core/` (NFR-3). **Measured: 97.21% lines, 94.74% functions, 96.43% regions.** Procedure: `./scripts/measure-core-coverage.sh`. Two non-100% files (`MorseEncoder.swift` 88.64%, `ValidatedMessage.swift` 96.77%) miss only documented unreachable defensive branches — see `docs/coverage.md`.
+- [x] 1.7.2 Verify `Core/` has zero imports of UIKit/SwiftUI/`Foundation.Timer` etc. via `scripts/check-core-purity.sh` (passes; runs in CI per 0.11).
 
 ## 2. Runtime — device bindings
 
