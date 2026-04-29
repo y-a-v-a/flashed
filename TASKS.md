@@ -25,7 +25,7 @@ it by path.
   - *Note (2026-04-22):* a development-only `Package.swift` overlay exists at repo root pointing SwiftPM at `MorseBeacon/Core/` and `MorseBeaconTests/Core/` via explicit `path:`. This is NOT the 0.7 extraction — no files are moved, no `Core-Package/` exists. The overlay lets Core tests run via `swift test` before the Xcode project exists. It coexists with the future Xcode target and will be replaced by the real package if/when 0.7 is triggered.
 - [x] 0.8 Add `.gitignore` (Xcode, SwiftPM, DerivedData, xcuserdata, `.DS_Store`). *(commit 191df2b)*
 - [x] 0.9 `scripts/check-core-purity.sh` greps `MorseBeacon/Core/` for forbidden tokens. Final list: `import UIKit`, `import SwiftUI`, `import Combine`, `import Dispatch`, `Foundation.Timer`, `NSTimer`, `Timer(`, `DispatchQueue`, `DispatchSource`, `DispatchTime`, `CFAbsoluteTime`, `CFRunLoop`, `RunLoop.`. Exit non-zero on any hit. Currently passing on 10 Core files.
-- [ ] 0.10 Write `scripts/check-screen-isolation.sh`: greps the entire app target for `UIScreen` and `isIdleTimerDisabled`, allowing matches only in `MorseBeacon/Runtime/ScreenController.swift`. Exit non-zero otherwise.
+- [x] 0.10 `scripts/check-screen-isolation.sh` greps the app target for `UIScreen.` and `UIApplication.shared.isIdleTimerDisabled` (qualified access patterns, to avoid false positives in doc comments and on our own protocol). Allows matches only in `MorseBeacon/Runtime/UIKitScreenProxy.swift` — sharper than the original "only ScreenController" rule because the controller is now pure logic delegating to a proxy. LAYOUT.md updated.
 - [ ] 0.11 CI: `.github/workflows/ci.yml` running, in order: `scripts/check-core-purity.sh`, `scripts/check-screen-isolation.sh`, `swift-format lint --strict`, `xcodebuild test` on macOS runner against iPhone 15 simulator. Fail on any warning (treat warnings as errors at project level).
 
 ## 1. Core — pure Swift, no UIKit/SwiftUI/Foundation.Timer
@@ -91,9 +91,9 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 
 ### 2.1 `ScreenController`
 
-- [ ] 2.1.1 API: `acquire()` saves `UIScreen.main.brightness` and `isIdleTimerDisabled`, sets brightness=1.0 and idle disabled. `release()` restores both. Idempotent.
-- [ ] 2.1.2 Test (unit, with injectable `ScreenProxy` protocol): acquire/release round-trips values correctly; double-acquire is a no-op; release without acquire is a no-op.
-- [ ] 2.1.3 Ensure only this file touches `UIScreen`/`UIApplication.isIdleTimerDisabled` via `scripts/check-screen-isolation.sh` (run in CI per 0.11).
+- [x] 2.1.1 API: `acquire()` snapshots `proxy.brightness` and `proxy.isIdleTimerDisabled`, sets brightness=1.0 and idle disabled. `release()` restores both. Both idempotent. Pure-Swift logic; UIKit binding lives in `UIKitScreenProxy.swift` behind `#if canImport(UIKit)`.
+- [x] 2.1.2 Tests against `FakeScreenProxy` (in-memory + event-recording): acquire snapshots before writing; double-acquire does NOT re-snapshot (guards against the bug class where the second acquire captures its own freshly-set 1.0 as "previous"); release without acquire is a true no-op (proxy is not even read); release restores captured `idleTimerDisabled=true` correctly; reacquire-after-release captures the new previous value. 8 tests passing.
+- [x] 2.1.3 Only `UIKitScreenProxy.swift` touches `UIScreen.` / `UIApplication.shared.isIdleTimerDisabled`, enforced by `scripts/check-screen-isolation.sh`.
 
 ### 2.2 `Transmitter`
 

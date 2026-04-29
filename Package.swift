@@ -16,17 +16,28 @@ let package = Package(
     name: "MorseBeaconCore",
     platforms: [.macOS(.v13), .iOS(.v17)],
     products: [
-        .library(name: "Core", targets: ["Core"])
+        .library(name: "Core", targets: ["Core"]),
+        .library(name: "Runtime", targets: ["Runtime"])
     ],
     targets: [
         .target(
             name: "Core",
             path: "MorseBeacon/Core"
         ),
+        .target(
+            name: "Runtime",
+            dependencies: ["Core"],
+            path: "MorseBeacon/Runtime"
+        ),
         .testTarget(
             name: "CoreTests",
             dependencies: ["Core"],
             path: "MorseBeaconTests/Core"
+        ),
+        .testTarget(
+            name: "RuntimeTests",
+            dependencies: ["Runtime"],
+            path: "MorseBeaconTests/Runtime"
         )
     ]
 )
