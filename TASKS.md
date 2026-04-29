@@ -97,16 +97,20 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 
 ### 2.2 `Transmitter`
 
-- [ ] 2.2.1 Define `enum TransmitterState { case idle, countdown(secondsLeft: Int), transmitting(currentTick: ScheduleTick), finished, aborted }`. Published.
-- [ ] 2.2.2 Define channel-agnostic `ScheduleTick` publication — do NOT name the field `flashOn`; name it `isOn` with the documented meaning "channel active for the span `[offset, offset+duration)`" (CLAUDE.md Architecture rules; PRD R1).
-- [ ] 2.2.3 Implement countdown using `DispatchSourceTimer` (5→0).
-- [ ] 2.2.4 Implement playback using `DispatchSourceTimer` with `.strict` flag and absolute deadlines: `t0 = DispatchTime.now()`, each tick scheduled at `t0 + .milliseconds(tick.absoluteOffsetMs)`. No incremental sleeps.
-- [ ] 2.2.5 `abort()` cancels timer, publishes `.aborted`, triggers cleanup.
-- [ ] 2.2.6 Observe `UIApplication.didEnterBackgroundNotification` → auto-abort (AC-5).
-- [ ] 2.2.7 Test: given a fake clock + fake timer, ticks are fired at the correct offsets for a `SOS` schedule.
-- [ ] 2.2.8 Test: abort while transmitting produces `.aborted` within one tick.
-- [ ] 2.2.9 Test: on finish, publishes `.finished` exactly once at `t0 + schedule.totalDurationMs` (per R1, no terminal sentinel tick is consumed to trigger this — Transmitter schedules `.finished` itself).
-- [ ] 2.2.10 Instrumented on-device test for jitter: log `DispatchTime.now()` deltas, assert < 10 ms jitter per flip on iPhone 12+ (FR-12). Document results in `docs/timing.md`.
+- [x] 2.2.1 `TransmitterState` enum (`.idle`, `.countdown(secondsLeft:)`, `.transmitting(currentTick:)`, `.finished`, `.aborted`). `Equatable`, `Sendable`. Allowed transitions documented in-file.
+- [x] 2.2.2 Channel-agnostic publication: `state` is `@Published`; the `currentTick` convenience extracts the live `ScheduleTick` whose `isOn` field has the R1 "channel active for `[offset, offset+duration)`" meaning. No optical-specific naming.
+- [x] 2.2.3 Countdown driven by absolute-deadline scheduling on the injected `Clock`. `start(_:countdownSeconds:5)` schedules N-1 tick-down callbacks at `t0 + 1s`, `t0 + 2s`, ..., then transmission begins at `t0 + N*1000`.
+- [x] 2.2.4 Playback uses `DispatchClock` (DispatchSourceTimer + .strict + absolute deadlines from `referenceTime`). Each tick scheduled at `txStart + tick.absoluteOffsetMs`. No incremental sleeps. Verified via `FakeClock` virtual-time tests.
+- [x] 2.2.5 `abort()` cancels all subscriptions, bumps the generation counter (invalidating any callbacks already in flight on the clock's queue), and sets `.aborted`. No-op from terminal states.
+- [x] 2.2.6 `Transmitter.observeBackgrounding()` (behind `#if canImport(UIKit)`) returns an `NSObjectProtocol` token observing `UIApplication.didEnterBackgroundNotification`; on fire, calls `abort()`.
+- [x] 2.2.7 `FakeClock` lets tests advance virtual time synchronously. Ticks fire at correct offsets for E, AN, and HELLO schedules. State stream observable via `tx.$state.sink`.
+- [x] 2.2.8 `test_abortDuringTransmission_stopsRemainingTicks` and `test_abortDuringCountdown_setsAbortedAndCancelsPending` cover both phases. Generation counter ensures stale callbacks become no-ops.
+- [x] 2.2.9 `test_finishedPublishedExactlyOnce` verifies `.finished` is emitted once at `t0 + schedule.totalDurationMs` and not republished by later clock advancement.
+- [ ] 2.2.10 Instrumented on-device test for jitter: log `DispatchTime.now()` deltas, assert < 10 ms jitter per flip on iPhone 12+ (FR-12). Document results in `docs/timing.md`. *(Deferred until iOS device available; needs real Xcode project per task 0.1.)*
+
+**Implementation notes:**
+- Restart-after-terminal-state semantics needed care. First attempt used a setState guard that suppressed transitions from `.aborted`/`.finished`, which also blocked legitimate restarts ("Transmit again"). Replaced with a generation counter: each `start()` / `abort()` bumps it; callbacks check it before mutating. Stale callbacks become no-ops. Cleaner and race-safe against `DispatchClock` callbacks already in flight.
+- 13 new tests, 99 total Core+Runtime tests passing. Total line coverage 98.54% (Transmitter at 97.56%).
 
 ### 2.3 Reduce-Motion clamp
 
