@@ -19,39 +19,39 @@
 /// queue (it touches the UI screen).
 public final class ScreenController {
 
-    private let proxy: ScreenProxy
-    private var snapshot: Snapshot?
+  private let proxy: ScreenProxy
+  private var snapshot: Snapshot?
 
-    private struct Snapshot {
-        let brightness: Double
-        let isIdleTimerDisabled: Bool
-    }
+  private struct Snapshot {
+    let brightness: Double
+    let isIdleTimerDisabled: Bool
+  }
 
-    public init(proxy: ScreenProxy) {
-        self.proxy = proxy
-    }
+  public init(proxy: ScreenProxy) {
+    self.proxy = proxy
+  }
 
-    /// True between `acquire()` and `release()`.
-    public var isAcquired: Bool { snapshot != nil }
+  /// True between `acquire()` and `release()`.
+  public var isAcquired: Bool { snapshot != nil }
 
-    /// Snapshot, then set brightness to 1.0 and disable the idle timer.
-    /// Idempotent: a second call while already acquired does nothing.
-    public func acquire() {
-        guard snapshot == nil else { return }
-        snapshot = Snapshot(
-            brightness: proxy.brightness,
-            isIdleTimerDisabled: proxy.isIdleTimerDisabled
-        )
-        proxy.brightness = 1.0
-        proxy.isIdleTimerDisabled = true
-    }
+  /// Snapshot, then set brightness to 1.0 and disable the idle timer.
+  /// Idempotent: a second call while already acquired does nothing.
+  public func acquire() {
+    guard snapshot == nil else { return }
+    snapshot = Snapshot(
+      brightness: proxy.brightness,
+      isIdleTimerDisabled: proxy.isIdleTimerDisabled
+    )
+    proxy.brightness = 1.0
+    proxy.isIdleTimerDisabled = true
+  }
 
-    /// Restore the snapshotted brightness and idle-timer state. No-op if
-    /// not acquired.
-    public func release() {
-        guard let s = snapshot else { return }
-        proxy.brightness = s.brightness
-        proxy.isIdleTimerDisabled = s.isIdleTimerDisabled
-        snapshot = nil
-    }
+  /// Restore the snapshotted brightness and idle-timer state. No-op if
+  /// not acquired.
+  public func release() {
+    guard let s = snapshot else { return }
+    proxy.brightness = s.brightness
+    proxy.isIdleTimerDisabled = s.isIdleTimerDisabled
+    snapshot = nil
+  }
 }

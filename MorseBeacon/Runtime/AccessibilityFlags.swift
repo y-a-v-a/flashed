@@ -9,27 +9,27 @@
 /// values from the snapshot. Tests construct snapshots directly.
 public struct AccessibilityFlags: Equatable, Hashable, Sendable {
 
-    public let isReduceMotionEnabled: Bool
+  public let isReduceMotionEnabled: Bool
 
-    public init(isReduceMotionEnabled: Bool) {
-        self.isReduceMotionEnabled = isReduceMotionEnabled
-    }
+  public init(isReduceMotionEnabled: Bool) {
+    self.isReduceMotionEnabled = isReduceMotionEnabled
+  }
 
-    /// The maximum character WPM the user is allowed to select (FR-8 + FR-22).
-    /// Capped at 10 when Reduce Motion is on, otherwise the full 20.
-    public var maxCharacterWPM: Int {
-        isReduceMotionEnabled ? 10 : 20
-    }
+  /// The maximum character WPM the user is allowed to select (FR-8 + FR-22).
+  /// Capped at 10 when Reduce Motion is on, otherwise the full 20.
+  public var maxCharacterWPM: Int {
+    isReduceMotionEnabled ? 10 : 20
+  }
 }
 
 #if canImport(UIKit)
-import UIKit
+  import UIKit
 
-public extension AccessibilityFlags {
+  extension AccessibilityFlags {
     /// Reads the current system accessibility state.
     /// Must be called from the main thread (UIAccessibility constraint).
-    static func current() -> AccessibilityFlags {
-        AccessibilityFlags(isReduceMotionEnabled: UIAccessibility.isReduceMotionEnabled)
+    public static func current() -> AccessibilityFlags {
+      AccessibilityFlags(isReduceMotionEnabled: UIAccessibility.isReduceMotionEnabled)
     }
-}
+  }
 #endif

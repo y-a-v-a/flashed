@@ -6,22 +6,22 @@
 /// to drive the HUD highlight.
 public struct TimedElement: Equatable, Hashable, Sendable {
 
-    public let kind: ElementKind
+  public let kind: ElementKind
 
-    /// Zero-based index into the source `ValidatedMessage.characters` of the
-    /// character this element belongs to.
-    ///
-    /// Non-nil for `dit`, `dah`, and `intraGap` (which lives inside a character).
-    /// Nil for `charGap` and `wordGap` (which live between characters).
-    public let sourceCharIndex: Int?
+  /// Zero-based index into the source `ValidatedMessage.characters` of the
+  /// character this element belongs to.
+  ///
+  /// Non-nil for `dit`, `dah`, and `intraGap` (which lives inside a character).
+  /// Nil for `charGap` and `wordGap` (which live between characters).
+  public let sourceCharIndex: Int?
 
-    /// Monotonic 0-based index in the encoded element stream. Used to drive
-    /// HUD line-2 highlighting and to key `ScheduleTick` back to its source.
-    public let elementIndexInMessage: Int
+  /// Monotonic 0-based index in the encoded element stream. Used to drive
+  /// HUD line-2 highlighting and to key `ScheduleTick` back to its source.
+  public let elementIndexInMessage: Int
 
-    public init(kind: ElementKind, sourceCharIndex: Int?, elementIndexInMessage: Int) {
-        self.kind = kind
-        self.sourceCharIndex = sourceCharIndex
-        self.elementIndexInMessage = elementIndexInMessage
-    }
+  public init(kind: ElementKind, sourceCharIndex: Int?, elementIndexInMessage: Int) {
+    self.kind = kind
+    self.sourceCharIndex = sourceCharIndex
+    self.elementIndexInMessage = elementIndexInMessage
+  }
 }

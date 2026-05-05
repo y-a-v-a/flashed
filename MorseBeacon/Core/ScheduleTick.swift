@@ -11,38 +11,38 @@
 /// last span.
 public struct ScheduleTick: Equatable, Hashable, Sendable {
 
-    /// Start of this tick's span, in milliseconds since `t0`.
-    public let absoluteOffsetMs: Int
+  /// Start of this tick's span, in milliseconds since `t0`.
+  public let absoluteOffsetMs: Int
 
-    /// Length of this tick's span, in milliseconds. Always > 0 for valid
-    /// schedules.
-    public let durationMs: Int
+  /// Length of this tick's span, in milliseconds. Always > 0 for valid
+  /// schedules.
+  public let durationMs: Int
 
-    /// Whether the emitter channel is active during this span (dits and dahs
-    /// are on; gaps are off).
-    public let isOn: Bool
+  /// Whether the emitter channel is active during this span (dits and dahs
+  /// are on; gaps are off).
+  public let isOn: Bool
 
-    /// Source character index from the originating `TimedElement`. Nil for
-    /// `charGap` and `wordGap` spans.
-    public let sourceCharIndex: Int?
+  /// Source character index from the originating `TimedElement`. Nil for
+  /// `charGap` and `wordGap` spans.
+  public let sourceCharIndex: Int?
 
-    /// Monotonic element index from the originating `TimedElement`.
-    public let elementIndexInMessage: Int
+  /// Monotonic element index from the originating `TimedElement`.
+  public let elementIndexInMessage: Int
 
-    public init(
-        absoluteOffsetMs: Int,
-        durationMs: Int,
-        isOn: Bool,
-        sourceCharIndex: Int?,
-        elementIndexInMessage: Int
-    ) {
-        self.absoluteOffsetMs = absoluteOffsetMs
-        self.durationMs = durationMs
-        self.isOn = isOn
-        self.sourceCharIndex = sourceCharIndex
-        self.elementIndexInMessage = elementIndexInMessage
-    }
+  public init(
+    absoluteOffsetMs: Int,
+    durationMs: Int,
+    isOn: Bool,
+    sourceCharIndex: Int?,
+    elementIndexInMessage: Int
+  ) {
+    self.absoluteOffsetMs = absoluteOffsetMs
+    self.durationMs = durationMs
+    self.isOn = isOn
+    self.sourceCharIndex = sourceCharIndex
+    self.elementIndexInMessage = elementIndexInMessage
+  }
 
-    /// Exclusive end of this tick's span.
-    public var endOffsetMs: Int { absoluteOffsetMs + durationMs }
+  /// Exclusive end of this tick's span.
+  public var endOffsetMs: Int { absoluteOffsetMs + durationMs }
 }

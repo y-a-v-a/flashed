@@ -28,6 +28,9 @@ step "Core purity"
 step "Screen isolation"
 ./scripts/check-screen-isolation.sh
 
+step "Format"
+./scripts/check-format.sh
+
 step "SwiftPM unit tests"
 swift test --quiet 2>&1 | grep -E 'Executed [0-9]+ test' | tail -1
 # Re-exit with swift test's actual status (the pipe above masks it):

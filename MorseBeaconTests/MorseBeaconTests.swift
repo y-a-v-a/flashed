@@ -14,10 +14,10 @@ import XCTest
 /// will go in this target as they appear.
 final class MorseBeaconAppLaunchTests: XCTestCase {
 
-    func test_appModuleImports() {
-        // Smoke test: confirms the Xcode app target compiles and is
-        // testable from this bundle. Replaced once real iOS-only tests
-        // arrive.
-        XCTAssertTrue(true)
-    }
+  func test_appModuleImports() {
+    // Smoke test: confirms the Xcode app target compiles and is
+    // testable from this bundle. Replaced once real iOS-only tests
+    // arrive.
+    XCTAssertTrue(true)
+  }
 }

@@ -7,9 +7,9 @@
 ///
 /// The only production conformer is `UIKitScreenProxy`. Tests use a fake.
 public protocol ScreenProxy: AnyObject {
-    /// Screen brightness in `0.0...1.0`.
-    var brightness: Double { get set }
+  /// Screen brightness in `0.0...1.0`.
+  var brightness: Double { get set }
 
-    /// Whether the system idle timer is disabled (true = screen stays awake).
-    var isIdleTimerDisabled: Bool { get set }
+  /// Whether the system idle timer is disabled (true = screen stays awake).
+  var isIdleTimerDisabled: Bool { get set }
 }

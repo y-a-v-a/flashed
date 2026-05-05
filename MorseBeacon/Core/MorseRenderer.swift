@@ -16,37 +16,37 @@
 /// giving `intraGap` no visual footprint has no downstream cost.
 public enum MorseRenderer {
 
-    public struct Line2: Equatable, Sendable {
-        /// Rendered Morse string.
-        public let string: String
+  public struct Line2: Equatable, Sendable {
+    /// Rendered Morse string.
+    public let string: String
 
-        /// Maps `elementIndexInMessage` → starting column in `string`.
-        ///
-        /// For `intraGap` elements (zero-width), the column value equals the
-        /// next element's starting column. Consumers that highlight by
-        /// element index should consult `ScheduleTick.isOn` (or R4's rule:
-        /// no highlight during gap ticks) before using these values.
-        public let elementIndexToColumn: [Int: Int]
+    /// Maps `elementIndexInMessage` → starting column in `string`.
+    ///
+    /// For `intraGap` elements (zero-width), the column value equals the
+    /// next element's starting column. Consumers that highlight by
+    /// element index should consult `ScheduleTick.isOn` (or R4's rule:
+    /// no highlight during gap ticks) before using these values.
+    public let elementIndexToColumn: [Int: Int]
+  }
+
+  public static func renderLine2(_ elements: [TimedElement]) -> Line2 {
+    var out = ""
+    var map: [Int: Int] = [:]
+    map.reserveCapacity(elements.count)
+
+    for element in elements {
+      // Column BEFORE appending this element is where the element starts.
+      map[element.elementIndexInMessage] = out.count
+
+      switch element.kind {
+      case .dit: out += "·"
+      case .dah: out += "−"
+      case .intraGap: break  // zero-width, see doc comment
+      case .charGap: out += "   "  // 3 spaces
+      case .wordGap: out += "       "  // 7 spaces
+      }
     }
 
-    public static func renderLine2(_ elements: [TimedElement]) -> Line2 {
-        var out = ""
-        var map: [Int: Int] = [:]
-        map.reserveCapacity(elements.count)
-
-        for element in elements {
-            // Column BEFORE appending this element is where the element starts.
-            map[element.elementIndexInMessage] = out.count
-
-            switch element.kind {
-            case .dit: out += "·"
-            case .dah: out += "−"
-            case .intraGap: break            // zero-width, see doc comment
-            case .charGap: out += "   "      // 3 spaces
-            case .wordGap: out += "       "  // 7 spaces
-            }
-        }
-
-        return Line2(string: out, elementIndexToColumn: map)
-    }
+    return Line2(string: out, elementIndexToColumn: map)
+  }
 }

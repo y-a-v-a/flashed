@@ -4,6 +4,6 @@
 /// pure combinatorial form of a character's Morse representation; timing is
 /// applied later by `TimingProfile` and `TransmissionSchedule`.
 public enum MorseSymbol: Equatable, Hashable, Sendable {
-    case dit
-    case dah
+  case dit
+  case dah
 }

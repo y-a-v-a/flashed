@@ -1,5 +1,5 @@
 #if SWIFT_PACKAGE
-import Core   // separate module under SwiftPM; same module under Xcode
+  import Core  // separate module under SwiftPM; same module under Xcode
 #endif
 
 /// The five lifecycle states of a transmission. Published by `Transmitter`.
@@ -21,9 +21,9 @@ import Core   // separate module under SwiftPM; same module under Xcode
 /// Terminal in the sense "no further callbacks fire": `finished` and
 /// `aborted` both cause the Transmitter to drop its scheduled subscriptions.
 public enum TransmitterState: Equatable, Sendable {
-    case idle
-    case countdown(secondsLeft: Int)
-    case transmitting(currentTick: ScheduleTick)
-    case finished
-    case aborted
+  case idle
+  case countdown(secondsLeft: Int)
+  case transmitting(currentTick: ScheduleTick)
+  case finished
+  case aborted
 }
