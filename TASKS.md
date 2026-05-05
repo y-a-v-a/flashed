@@ -32,7 +32,7 @@ it by path.
 - [x] 0.x.1 `scripts/build-ios.sh`: wraps `xcodebuild build` for `generic/platform=iOS Simulator` with `CODE_SIGNING_ALLOWED=NO`. Quiet on success, full log on failure. ~1–2 s incremental, ~30–60 s clean.
 - [x] 0.x.2 `scripts/test-ios.sh`: runs the Xcode unit-test target on the first available iPhone simulator (auto-detected via `simctl list`).
 - [x] 0.x.3 `scripts/check-all.sh`: runs every gate in dependency order — purity → isolation → SwiftPM tests → iOS build → iOS tests (opt-in via `RUN_IOS_TESTS=1`). 2.4 s without iOS tests, ~70 s with.
-- [ ] 0.11 CI: `.github/workflows/ci.yml` running, in order: `scripts/check-core-purity.sh`, `scripts/check-screen-isolation.sh`, `swift-format lint --strict`, `xcodebuild test` on macOS runner against iPhone 15 simulator. Fail on any warning (treat warnings as errors at project level).
+- [x] 0.11 `.github/workflows/ci.yml` runs on `macos-15` runner. Fail-fast step order: env dump → core purity → screen isolation → format lint --strict → SwiftPM unit tests (`swift test --parallel`) → iOS Simulator build (`./scripts/build-ios.sh`) → iOS Simulator tests (`./scripts/test-ios.sh`). Concurrency group cancels superseded runs. `SWIFT_TREAT_WARNINGS_AS_ERRORS = YES` in pbxproj enforces no-warnings rule at compile time.
 
 ## 1. Core — pure Swift, no UIKit/SwiftUI/Foundation.Timer
 

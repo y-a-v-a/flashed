@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel earlier runs of the same branch/PR when new commits arrive.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    name: Build, Lint, Test
+    runs-on: macos-15
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show environment
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+          xcrun swift-format --version
+          echo "--- iOS runtimes ---"
+          xcrun simctl list runtimes | head -10
+          echo "--- iPhone simulators (first 5) ---"
+          xcrun simctl list devices available | grep -E '^[[:space:]]+iPhone ' | head -5
+
+      # --- Architecture rules: cheap, fail-fast ---
+
+      - name: Core purity
+        run: ./scripts/check-core-purity.sh
+
+      - name: Screen isolation
+        run: ./scripts/check-screen-isolation.sh
+
+      - name: Format (swift-format --strict)
+        run: ./scripts/check-format.sh
+
+      # --- Tests + builds ---
+
+      - name: SwiftPM unit tests (Core + Runtime, macOS)
+        run: swift test --parallel
+
+      - name: iOS Simulator build
+        run: ./scripts/build-ios.sh
+
+      - name: iOS Simulator tests
+        run: ./scripts/test-ios.sh
