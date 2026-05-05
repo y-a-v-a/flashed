@@ -26,6 +26,12 @@ it by path.
 - [x] 0.8 Add `.gitignore` (Xcode, SwiftPM, DerivedData, xcuserdata, `.DS_Store`). *(commit 191df2b)*
 - [x] 0.9 `scripts/check-core-purity.sh` greps `MorseBeacon/Core/` for forbidden tokens. Final list: `import UIKit`, `import SwiftUI`, `import Combine`, `import Dispatch`, `Foundation.Timer`, `NSTimer`, `Timer(`, `DispatchQueue`, `DispatchSource`, `DispatchTime`, `CFAbsoluteTime`, `CFRunLoop`, `RunLoop.`. Exit non-zero on any hit. Currently passing on 10 Core files.
 - [x] 0.10 `scripts/check-screen-isolation.sh` greps the app target for `UIScreen.` and `UIApplication.shared.isIdleTimerDisabled` (qualified access patterns, to avoid false positives in doc comments and on our own protocol). Allows matches only in `MorseBeacon/Runtime/UIKitScreenProxy.swift` — sharper than the original "only ScreenController" rule because the controller is now pure logic delegating to a proxy. LAYOUT.md updated.
+
+### 0.x Local check scripts
+
+- [x] 0.x.1 `scripts/build-ios.sh`: wraps `xcodebuild build` for `generic/platform=iOS Simulator` with `CODE_SIGNING_ALLOWED=NO`. Quiet on success, full log on failure. ~1–2 s incremental, ~30–60 s clean.
+- [x] 0.x.2 `scripts/test-ios.sh`: runs the Xcode unit-test target on the first available iPhone simulator (auto-detected via `simctl list`).
+- [x] 0.x.3 `scripts/check-all.sh`: runs every gate in dependency order — purity → isolation → SwiftPM tests → iOS build → iOS tests (opt-in via `RUN_IOS_TESTS=1`). 2.4 s without iOS tests, ~70 s with.
 - [ ] 0.11 CI: `.github/workflows/ci.yml` running, in order: `scripts/check-core-purity.sh`, `scripts/check-screen-isolation.sh`, `swift-format lint --strict`, `xcodebuild test` on macOS runner against iPhone 15 simulator. Fail on any warning (treat warnings as errors at project level).
 
 ## 1. Core — pure Swift, no UIKit/SwiftUI/Foundation.Timer
