@@ -1,5 +1,7 @@
 import Combine
-import Core
+#if SWIFT_PACKAGE
+import Core   // separate module under SwiftPM; same module under Xcode
+#endif
 
 /// The single source of truth for transmission playback state.
 ///

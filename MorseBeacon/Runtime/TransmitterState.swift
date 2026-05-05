@@ -1,4 +1,6 @@
-import Core
+#if SWIFT_PACKAGE
+import Core   // separate module under SwiftPM; same module under Xcode
+#endif
 
 /// The five lifecycle states of a transmission. Published by `Transmitter`.
 ///
