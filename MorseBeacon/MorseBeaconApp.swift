@@ -44,6 +44,8 @@ struct MorseBeaconApp: App {
       switch ProcessInfo.processInfo.environment["MB_LAUNCH_TO"] {
       case "settings":
         NavigationStack { SettingsView(store: settings) }
+      case "about":
+        NavigationStack { AboutView() }
       case "input":
         NavigationStack { InputView(settings: settings, transmitter: transmitter) }
       case "countdown":

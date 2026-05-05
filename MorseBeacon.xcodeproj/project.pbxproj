@@ -35,6 +35,7 @@
 		200C000000000000000000C7 /* OrientationLockHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C7 /* OrientationLockHost.swift */; };
 		200C000000000000000000C8 /* TransmissionSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C8 /* TransmissionSession.swift */; };
 		200C000000000000000000C9 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C9 /* Theme.swift */; };
+		200C000000000000000000CA /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000CA /* AboutView.swift */; };
 		200D000000000000000000D0 /* MorseBeaconApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D0 /* MorseBeaconApp.swift */; };
 		200D000000000000000000D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D2 /* Assets.xcassets */; };
 		200D000000000000000000D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D3 /* Preview Assets.xcassets */; };
@@ -80,6 +81,7 @@
 		100C000000000000000000C7 /* OrientationLockHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationLockHost.swift; sourceTree = "<group>"; };
 		100C000000000000000000C8 /* TransmissionSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransmissionSession.swift; sourceTree = "<group>"; };
 		100C000000000000000000C9 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		100C000000000000000000CA /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		100D000000000000000000D0 /* MorseBeaconApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseBeaconApp.swift; sourceTree = "<group>"; };
 		100D000000000000000000D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		100D000000000000000000D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				100C000000000000000000C7 /* OrientationLockHost.swift */,
 				100C000000000000000000C8 /* TransmissionSession.swift */,
 				100C000000000000000000C9 /* Theme.swift */,
+				100C000000000000000000CA /* AboutView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				200C000000000000000000C7 /* OrientationLockHost.swift in Sources */,
 				200C000000000000000000C8 /* TransmissionSession.swift in Sources */,
 				200C000000000000000000C9 /* Theme.swift in Sources */,
+				200C000000000000000000CA /* AboutView.swift in Sources */,
 				200D000000000000000000D0 /* MorseBeaconApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

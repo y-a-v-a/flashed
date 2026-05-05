@@ -204,6 +204,13 @@ This is the entire pipeline live: DispatchClock → Transmitter callback → sta
 - [ ] 3.7.2 Dynamic Type support for Input/Settings (not HUD — HUD is fixed monospace for legibility at distance).
 - [ ] 3.7.3 VoiceOver pass on non-beacon screens.
 
+### 3.8 About page (post-PRD addition)
+
+- [x] 3.8.1 `UI/AboutView.swift` showing app name (monospaced), version + build read from `Info.plist`, short description, author (Vincent Bruijn) + tappable `mailto:info@vincentbruijn.nl` link, and a Standards section citing ITU-R M.1677-1 and Bloom's Farnsworth method.
+- [x] 3.8.2 Reachable from `SettingsView` via an `info.circle` toolbar item in the top-right (two-tap depth from InputView: gear → (i)).
+- [x] 3.8.3 `MB_LAUNCH_TO=about` route added for headless verification.
+- [x] 3.8.4 No PRD update required — About fits §3 navigation as a sub-screen of Settings; not in §2 non-goals; aligns with NFR-2 (no telemetry, no network) since `mailto:` opens Mail.app, not a network call from us.
+
 ## 4. Wiring and integration
 
 - [ ] 4.1 Settings → TimingProfile factory helper.

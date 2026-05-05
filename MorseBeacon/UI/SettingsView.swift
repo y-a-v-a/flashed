@@ -22,6 +22,16 @@ struct SettingsView: View {
       maintenanceSection
     }
     .navigationTitle("Settings")
+    .toolbar {
+      ToolbarItem(placement: .topBarTrailing) {
+        NavigationLink {
+          AboutView()
+        } label: {
+          Image(systemName: "info.circle")
+            .accessibilityLabel("About Morse Beacon")
+        }
+      }
+    }
     .onAppear {
       enforceCaps()
     }
