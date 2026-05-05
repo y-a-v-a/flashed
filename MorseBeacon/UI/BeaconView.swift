@@ -2,40 +2,88 @@ import SwiftUI
 
 #if SWIFT_PACKAGE
   import Core
+  import Runtime
 #endif
 
-/// **Placeholder** for the full Beacon view (TASKS §3.6). The complete
-/// implementation will:
-/// - Acquire screen brightness (1.0) + idle-timer disable on appear.
-/// - Lock orientation via `OrientationLockHost`.
-/// - Render the 88pt HUD strip + 4pt separator + flash area bound to
-///   `tick.isOn`.
-/// - Tap-to-abort over the whole screen.
+/// Full-screen optical Morse output (PRD §3 step 3, FR-9 through FR-16).
 ///
-/// For now: black background while transmitting plus a small text reading
-/// the current tick's index. Enough for `TransmissionContainerView` to
-/// route end-to-end and for sanity-checking the state machine in the
-/// simulator.
+/// Layout (top to bottom):
+///   - 88pt HUD strip at 40% white, never flashes (FR-9, FR-16)
+///   - 4pt black separator (FR-9)
+///   - flash area filling the remainder, toggling pure black ↔ pure white
+///     on each `tick.isOn` (FR-9)
+///
+/// Lifecycle:
+///   - On appear: `ScreenController.acquire()` snapshots brightness +
+///     idle-timer state and sets brightness=1.0 / idle-disabled (FR-10).
+///   - On disappear: `ScreenController.release()` restores both (FR-11).
+///   - Orientation locked to whatever was active at appear via
+///     `OrientationLockHost` (FR-10).
+///
+/// Tap-to-abort is handled by the parent `TransmissionContainerView`'s
+/// outer gesture; this view does not need its own. The full-screen tap
+/// target is the entire view (FR-13).
 struct BeaconView: View {
+
+  let session: TransmissionSession
   let tick: ScheduleTick
 
+  @Environment(\.screenController) private var screenController
+
   var body: some View {
-    ZStack {
-      Color.black.ignoresSafeArea()
-      VStack(spacing: 12) {
-        Text("Beacon view pending")
-          .font(.title2)
-          .foregroundStyle(.white)
-        Text("TASKS §3.6")
-          .font(.callout)
-          .foregroundStyle(.white.opacity(0.5))
-        Text(
-          "current tick: idx=\(tick.elementIndexInMessage) on=\(tick.isOn ? "yes" : "no") off=\(tick.absoluteOffsetMs)ms"
+    OrientationLockHost {
+      VStack(spacing: 0) {
+        HUDStripView(
+          message: session.message,
+          elements: session.elements,
+          currentTick: tick
         )
-        .font(.caption.monospaced())
-        .foregroundStyle(.white.opacity(0.4))
-        .padding(.top, 16)
+
+        Color.black
+          .frame(height: Theme.hudSeparatorHeight)
+
+        FlashAreaView(isOn: tick.isOn)
       }
+      .ignoresSafeArea(.container, edges: .bottom)
     }
+    .ignoresSafeArea()
+    .onAppear {
+      screenController?.acquire()
+    }
+    .onDisappear {
+      screenController?.release()
+    }
+  }
+}
+
+/// The flash area itself: a full-bleed rectangle that's pure white when the
+/// channel is on and pure black when off. No animation between states —
+/// the whole point is sharp on/off transitions for downstream Morse
+/// decoding.
+private struct FlashAreaView: View {
+  let isOn: Bool
+
+  var body: some View {
+    (isOn ? Color.white : Color.black)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+  }
+}
+
+// MARK: - Environment plumbing for ScreenController
+
+/// Environment key for the shared `ScreenController`. Provided by
+/// `MorseBeaconApp` at the scene root; consumed by `BeaconView` on
+/// appear/disappear.
+///
+/// Default value is nil so non-iOS contexts (previews, future macOS
+/// builds) safely no-op without a `UIKitScreenProxy`.
+private struct ScreenControllerKey: EnvironmentKey {
+  static let defaultValue: ScreenController? = nil
+}
+
+extension EnvironmentValues {
+  var screenController: ScreenController? {
+    get { self[ScreenControllerKey.self] }
+    set { self[ScreenControllerKey.self] = newValue }
   }
 }

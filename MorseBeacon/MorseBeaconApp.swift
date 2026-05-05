@@ -1,6 +1,7 @@
 import SwiftUI
 
 #if SWIFT_PACKAGE
+  import Core
   import Runtime
 #endif
 
@@ -9,9 +10,24 @@ struct MorseBeaconApp: App {
   @StateObject private var settings = SettingsStore()
   @StateObject private var transmitter = Transmitter(clock: DispatchClock())
 
+  /// The single `ScreenController` for the whole app. iOS-only, backed by
+  /// `UIKitScreenProxy`. Held as a stored property (not @StateObject) since
+  /// it isn't observable; reference identity is stable across renders.
+  private let screenController = ScreenController(proxy: UIKitScreenProxy())
+
+  /// Token retaining the backgrounding observer for the lifetime of the
+  /// app. Releasing it removes the observer; we never do.
+  @State private var backgroundingToken: NSObjectProtocol?
+
   var body: some Scene {
     WindowGroup {
       rootView
+        .environment(\.screenController, screenController)
+        .onAppear {
+          if backgroundingToken == nil {
+            backgroundingToken = transmitter.observeBackgrounding()
+          }
+        }
     }
   }
 
@@ -33,11 +49,20 @@ struct MorseBeaconApp: App {
       case "countdown":
         TransmissionContainerView(
           transmitter: previewTransmitter(state: .countdown(secondsLeft: 5)),
+          session: previewSession(message: "SOS"),
+          onRestart: {}
+        )
+      case "beacon":
+        let session = previewSession(message: "SOS PARIS")
+        TransmissionContainerView(
+          transmitter: beaconPreviewTransmitter(session: session),
+          session: session,
           onRestart: {}
         )
       case "finished":
         TransmissionContainerView(
           transmitter: previewTransmitter(state: .finished),
+          session: previewSession(message: "SOS"),
           onRestart: {}
         )
       default:
@@ -49,27 +74,41 @@ struct MorseBeaconApp: App {
   }
 
   #if DEBUG
+    /// Starts a real transmission with the given session at countdown=0
+    /// so it begins transmitting immediately. The slow PARIS@5 schedule
+    /// keeps it in `.transmitting` long enough to screenshot.
+    private func beaconPreviewTransmitter(session: TransmissionSession) -> Transmitter {
+      let tx = Transmitter(clock: DispatchClock())
+      tx.start(session.schedule, countdownSeconds: 0)
+      return tx
+    }
+
     /// Builds a `Transmitter` parked at a given state for visual previews.
-    /// The clock is real, but we never call `start()` so no callbacks fire.
     private func previewTransmitter(state: TransmitterState) -> Transmitter {
       let tx = Transmitter(clock: DispatchClock())
-      // State is private(set); reach in via reflection won't work. Instead
-      // we drive the transmitter through start() and override clock to a
-      // fake. For the small set of preview states we need, a simpler trick:
-      // start with an empty schedule and rely on the natural transitions.
       switch state {
       case .countdown(let n):
-        // Start a 5-sec countdown; the cover renders whichever count it's
-        // currently at. For a static preview we want a specific number;
-        // simplest: start with countdownSeconds = n, then the initial
-        // state is .countdown(n).
         tx.start([], countdownSeconds: n)
       case .finished:
-        tx.start([], countdownSeconds: 0)  // empty schedule transitions straight to .finished
+        tx.start([], countdownSeconds: 0)
       default:
         break
       }
       return tx
+    }
+
+    /// Builds a TransmissionSession with the given message text. Used by
+    /// MB_LAUNCH_TO routes that need a session to thread through the
+    /// container. Uses 5 WPM so the transmission lasts long enough to
+    /// screenshot mid-flight (PARIS "SOS" at 5 WPM ≈ 6.5 s).
+    private func previewSession(message: String) -> TransmissionSession {
+      guard let validated = try? ValidatedMessage(message) else {
+        return TransmissionSession(message: "", elements: [], schedule: [])
+      }
+      let elements = MorseEncoder.encode(validated)
+      let schedule = TransmissionSchedule.build(elements: elements, profile: .paris(wpm: 5))
+      return TransmissionSession(
+        message: validated.asString, elements: elements, schedule: schedule)
     }
   #endif
 }

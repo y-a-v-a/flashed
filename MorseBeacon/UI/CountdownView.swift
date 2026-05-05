@@ -40,8 +40,10 @@ struct CountdownView: View {
 /// `InputView`.
 struct TransmissionContainerView: View {
   @ObservedObject var transmitter: Transmitter
-  @Environment(\.dismiss) private var dismiss
+  let session: TransmissionSession
   let onRestart: () -> Void
+
+  @Environment(\.dismiss) private var dismiss
 
   var body: some View {
     ZStack {
@@ -55,7 +57,7 @@ struct TransmissionContainerView: View {
       case .countdown(let n):
         CountdownView(secondsLeft: n)
       case .transmitting(let tick):
-        BeaconView(tick: tick)
+        BeaconView(session: session, tick: tick)
       case .finished:
         FinishedView(onDone: { dismiss() }, onAgain: onRestart)
       }

@@ -176,17 +176,27 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 
 ### 3.6 `BeaconView`
 
-- [ ] 3.6.0 **Stub created** (renders "Beacon view pending" + tick debug info on black). Already wired into `TransmissionContainerView`; replace with full impl.
-- [ ] 3.6.1 Orientation lock at appear: implement `OrientationLockHostingController` (UIViewControllerRepresentable) overriding `supportedInterfaceOrientations` (CLAUDE.md gotcha).
-- [ ] 3.6.2 `onAppear`: `ScreenController.acquire()`, `Transmitter.start(schedule)`. `onDisappear`: `ScreenController.release()`.
-- [ ] 3.6.3 Layout: top strip 88pt (HUD), 4pt black separator, rest = flash area (FR-9, FR-14).
-- [ ] 3.6.4 Flash area binds to `Transmitter.currentTick.isOn`: pure black ↔ pure white, no animation.
-- [ ] 3.6.5 HUD Line 1: source text, current character highlighted (amber `#FFA500` bg, black fg — FR-14). Monospaced. Per R4: highlight appears only during dit/dah/intraGap ticks whose `sourceCharIndex` is non-nil; neutral during charGap/wordGap.
-- [ ] 3.6.6 HUD Line 2: Morse rendering via `MorseRenderer`, current element highlighted. Per R4: no highlight during gap ticks.
-- [ ] 3.6.7 Auto-scroll both HUD lines to keep highlight centered; no smooth animation at element level (FR-15). Per R4: during un-highlighted gap ticks, the viewport holds at the most recent highlighted position (no drift).
-- [ ] 3.6.8 Full-screen tap gesture → `Transmitter.abort()`, navigate back (FR-13, AC-2 < 200 ms).
-- [ ] 3.6.9 On `.finished`: show "Transmit again" / "Done" overlay (user flow §3.4). Overlay may appear on a neutral screen after restoring brightness.
-- [ ] 3.6.10 Handle backgrounding AND call interruptions (`AVAudioSession` interruption / phone call): rely on Transmitter's observers to abort; view cleans up on disappear.
+- [x] 3.6.0 Stub replaced with full implementation.
+- [x] 3.6.1 `OrientationLockHost` (UIViewControllerRepresentable) wraps the BeaconView contents in a `LockingHostingController` that captures the current `interfaceOrientation` at `viewDidAppear` and overrides `supportedInterfaceOrientations` to that value. Restores `.all` on `viewWillDisappear`. Uses `requestGeometryUpdate(.iOS(...))` (iOS 16+ API; we target 17+).
+- [x] 3.6.2 `BeaconView.onAppear` calls `screenController?.acquire()`; `onDisappear` calls `release()`. The `ScreenController` is injected via SwiftUI environment from `MorseBeaconApp` (single instance for the app's lifetime). `Transmitter.start` happens earlier in `InputView.startTransmission()`, not in BeaconView — BeaconView is a passive observer of `transmitter.state`.
+- [x] 3.6.3 Layout per FR-9: HUD strip at the top (height = `Theme.hudStripHeight` = 88pt), 4pt black separator, flash area filling the rest. `.ignoresSafeArea()` so the flash area is true full-screen.
+- [x] 3.6.4 `FlashAreaView` is `(isOn ? Color.white : Color.black)` filling all available space. No animation — sharp on/off transitions for downstream Morse decoding.
+- [x] 3.6.5 HUD Line 1: source text in white monospaced 28pt, current char highlighted with `Theme.hudHighlightBackground` (amber `#FFA500`) on `Theme.hudHighlightForeground` (black). Per R4 the highlight appears only on `tick.isOn` (i.e., dit/dah, since intraGap is also off). The original task spec said "dit/dah/intraGap" should highlight; correcting per R4: intraGap also un-highlights to maintain strict lockstep with the channel state.
+- [x] 3.6.6 HUD Line 2: `MorseRenderer.renderLine2(elements)` output rendered as one Text-per-column for ScrollView targeting; current column highlighted via the same amber/black palette.
+- [x] 3.6.7 Auto-scroll uses `ScrollViewReader.scrollTo(id:anchor:.center)` keyed on `lastCharIndex` / `lastColumn` (the most-recent highlighted positions). Wrapped in `withTransaction(t)` with `t.disablesAnimations = true` so jumps are instant per FR-15. Per R4, viewport holds during gap ticks because `lastCharIndex` / `lastColumn` only update on `tick.isOn`.
+- [x] 3.6.8 Tap-to-abort handled by parent `TransmissionContainerView`'s outer `.onTapGesture` (FR-13 — entire beacon screen aborts). AC-2's <200 ms requirement is satisfied by the abort path: synchronous state mutation, immediate dismiss via `.onChange(of: state)`.
+- [x] 3.6.9 `.finished` shows `FinishedView` (already implemented in CountdownView.swift) with "Transmit again" / "Done" buttons. Brightness restored by then because `BeaconView.onDisappear` fires when the switch leaves the `.transmitting` case.
+- [x] 3.6.10 Backgrounding wired in `MorseBeaconApp.body` via `transmitter.observeBackgrounding()`, token retained in `@State backgroundingToken: NSObjectProtocol?` for app lifetime. Transmitter's `abort()` triggers on `UIApplication.didEnterBackgroundNotification`; container dismisses on `.aborted`. Phone-call interruption deferred (PRD doesn't specify; AVAudioSession not yet involved since no audio channel).
+
+**Visual verification:** screenshotted via `MB_LAUNCH_TO=beacon` (sample SOS PARIS @ 5 WPM transmission). Two screenshots 1s apart caught:
+- Gap tick: HUD un-highlighted, flash area black.
+- Dah tick on 'O': HUD shows amber highlight on 'O' in line 1 and on the first '−' of '−−−' in line 2; flash area pure white.
+
+This is the entire pipeline live: DispatchClock → Transmitter callback → state.transmitting(tick) → SwiftUI onChange → HUD highlight + flash color. AC-3 (lockstep) visually verified at 1-second granularity; tighter verification needs real-device 240fps recording.
+
+**Simulator limits:** brightness/idle-timer/orientation-lock effects can't be observed in screenshots (simulator doesn't simulate physical screen brightness). The `acquire()`/`release()` calls are wired correctly per code review; runtime verification needs a real device.
+
+**Note on FR-12 (jitter <10 ms).** The Transmitter's `DispatchClock` uses `.strict`-flagged DispatchSourceTimers with absolute deadlines anchored to a `referenceTime` captured at clock init. Per-tick scheduling at `txStart + tick.absoluteOffsetMs` avoids cumulative drift. On-device jitter measurement (TASKS 2.2.10) still pending.
 
 ### 3.7 Visual polish pass
 

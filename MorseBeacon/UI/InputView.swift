@@ -21,6 +21,7 @@ struct InputView: View {
   @ObservedObject var transmitter: Transmitter
 
   @State private var presentingTransmission = false
+  @State private var currentSession: TransmissionSession?
   @FocusState private var editorFocused: Bool
 
   var body: some View {
@@ -45,10 +46,13 @@ struct InputView: View {
       }
     }
     .fullScreenCover(isPresented: $presentingTransmission) {
-      TransmissionContainerView(
-        transmitter: transmitter,
-        onRestart: { startTransmission() }
-      )
+      if let session = currentSession {
+        TransmissionContainerView(
+          transmitter: transmitter,
+          session: session,
+          onRestart: { startTransmission() }
+        )
+      }
     }
     .onChange(of: settings.lastMessage) { _, newValue in
       // Hard-cap at 160 chars at the typing layer (FR-3). ValidatedMessage
@@ -160,6 +164,11 @@ struct InputView: View {
     let elements = MorseEncoder.encode(validated)
     let schedule = TransmissionSchedule.build(elements: elements, profile: profile)
 
+    currentSession = TransmissionSession(
+      message: validated.asString,
+      elements: elements,
+      schedule: schedule
+    )
     editorFocused = false
     transmitter.start(schedule)
     presentingTransmission = true
