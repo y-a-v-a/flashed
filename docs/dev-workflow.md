@@ -92,7 +92,31 @@ xcrun simctl io "$SIM" screenshot /tmp/screen.png
 open /tmp/screen.png   # or just inspect the PNG
 ```
 
-When you're done:
+#### Launching directly into a specific view
+
+`simctl` cannot synthesize touch events, so reaching nested views by
+tapping is impractical. The app honours an `MB_LAUNCH_TO` environment
+variable in DEBUG builds that bypasses navigation and roots a chosen
+view directly:
+
+```sh
+SIMCTL_CHILD_MB_LAUNCH_TO=settings xcrun simctl launch "$SIM" com.example.morsebeacon
+```
+
+The `SIMCTL_CHILD_` prefix is required — it tells `simctl` to forward
+the variable to the launched app's environment. Add new routes to
+`MorseBeaconApp.swift`'s `rootView` switch as new views land.
+
+To screenshot a view that depends on `UserDefaults` state, write the
+state first via the simulator's `defaults` command:
+
+```sh
+xcrun simctl spawn "$SIM" defaults write com.example.morsebeacon \
+    settings.timingModel farnsworth
+```
+
+#### Cleanup
+
 ```sh
 xcrun simctl terminate "$SIM" com.example.morsebeacon
 xcrun simctl shutdown "$SIM"

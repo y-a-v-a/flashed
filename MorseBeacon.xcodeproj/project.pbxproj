@@ -24,8 +24,10 @@
 		200B000000000000000000B4 /* Transmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B000000000000000000B4 /* Transmitter.swift */; };
 		200B000000000000000000B5 /* TransmitterState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B000000000000000000B5 /* TransmitterState.swift */; };
 		200B000000000000000000B6 /* UIKitScreenProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B000000000000000000B6 /* UIKitScreenProxy.swift */; };
+		200B000000000000000000B7 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B000000000000000000B7 /* SettingsStore.swift */; };
 		200C000000000000000000C0 /* SafetyWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C0 /* SafetyWarningView.swift */; };
 		200C000000000000000000C1 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C1 /* RootView.swift */; };
+		200C000000000000000000C2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C2 /* SettingsView.swift */; };
 		200D000000000000000000D0 /* MorseBeaconApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D0 /* MorseBeaconApp.swift */; };
 		200D000000000000000000D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D2 /* Assets.xcassets */; };
 		200D000000000000000000D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D3 /* Preview Assets.xcassets */; };
@@ -60,8 +62,10 @@
 		100B000000000000000000B4 /* Transmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transmitter.swift; sourceTree = "<group>"; };
 		100B000000000000000000B5 /* TransmitterState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransmitterState.swift; sourceTree = "<group>"; };
 		100B000000000000000000B6 /* UIKitScreenProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitScreenProxy.swift; sourceTree = "<group>"; };
+		100B000000000000000000B7 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		100C000000000000000000C0 /* SafetyWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyWarningView.swift; sourceTree = "<group>"; };
 		100C000000000000000000C1 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		100C000000000000000000C2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		100D000000000000000000D0 /* MorseBeaconApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseBeaconApp.swift; sourceTree = "<group>"; };
 		100D000000000000000000D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		100D000000000000000000D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -145,6 +149,7 @@
 				100B000000000000000000B1 /* Clock.swift */,
 				100B000000000000000000B2 /* ScreenController.swift */,
 				100B000000000000000000B3 /* ScreenProxy.swift */,
+				100B000000000000000000B7 /* SettingsStore.swift */,
 				100B000000000000000000B4 /* Transmitter.swift */,
 				100B000000000000000000B5 /* TransmitterState.swift */,
 				100B000000000000000000B6 /* UIKitScreenProxy.swift */,
@@ -157,6 +162,7 @@
 			children = (
 				100C000000000000000000C1 /* RootView.swift */,
 				100C000000000000000000C0 /* SafetyWarningView.swift */,
+				100C000000000000000000C2 /* SettingsView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -286,8 +292,10 @@
 				200B000000000000000000B4 /* Transmitter.swift in Sources */,
 				200B000000000000000000B5 /* TransmitterState.swift in Sources */,
 				200B000000000000000000B6 /* UIKitScreenProxy.swift in Sources */,
+				200B000000000000000000B7 /* SettingsStore.swift in Sources */,
 				200C000000000000000000C0 /* SafetyWarningView.swift in Sources */,
 				200C000000000000000000C1 /* RootView.swift in Sources */,
+				200C000000000000000000C2 /* SettingsView.swift in Sources */,
 				200D000000000000000000D0 /* MorseBeaconApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

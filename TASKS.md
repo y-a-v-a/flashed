@@ -153,13 +153,16 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 - [ ] 3.3.5 Transmit button → pushes `CountdownView`.
 - [ ] 3.3.6 Accessibility labels for text field, counter, Transmit, Settings.
 
-### 3.4 `SettingsView`
+### 3.4 `SettingsStore` + `SettingsView`
 
-- [ ] 3.4.1 Picker: PARIS | Farnsworth (FR-17).
-- [ ] 3.4.2 Character WPM slider 5–20, default 10 (FR-18). Clamp max to 10 if Reduce Motion is on (FR-22).
-- [ ] 3.4.3 Effective WPM slider 5–charWpm, only visible under Farnsworth (FR-19).
-- [ ] 3.4.4 Persist via UserDefaults (FR-20).
-- [ ] 3.4.5 Re-show safety warning link; "Reset last message" button.
+- [x] 3.4.0 `SettingsStore` (Runtime, not UI — LAYOUT updated). `ObservableObject` over `UserDefaults`, no SwiftUI dependency. `@Published` for timingModel, characterWPM, effectiveWPM, lastMessage. Defensive clamping on read; persistence via Combine sinks (`dropFirst()` so initial values don't write themselves back). 10 unit tests via SwiftPM cover defaults, reads, clamping, persistence round-trip, and `makeTimingProfile()` for both PARIS and Farnsworth.
+- [x] 3.4.1 Picker PARIS | Farnsworth, segmented style.
+- [x] 3.4.2 Character WPM slider 5–20, default 10. Reduce Motion (`@Environment(\.accessibilityReduceMotion)`) caps at 10 with explanatory caption; `enforceCaps()` runs on appear and on Reduce Motion change to clamp any out-of-range stored value. Slider's range itself is reactive.
+- [x] 3.4.3 Effective WPM slider 5–charWpm, conditionally visible under Farnsworth. `.onChange(of: store.characterWPM)` clamps effectiveWPM if char drops below it.
+- [x] 3.4.4 Persistence is by `SettingsStore`'s Combine sinks; views write through `@ObservedObject`.
+- [x] 3.4.5 "Show safety warning again" toggles `@AppStorage("safetyAcknowledgedV1")` to false. "Reset last message" clears `store.lastMessage`; disabled when already empty.
+
+**Visual verification:** screenshotted both PARIS and Farnsworth states via `MB_LAUNCH_TO=settings` (a new debug-only env-var route in `MorseBeaconApp` that bypasses navigation; documented in `docs/dev-workflow.md`). All controls render correctly; conditional Effective WPM section toggles.
 
 ### 3.5 `CountdownView`
 
