@@ -132,15 +132,17 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 
 ### 3.1 App shell
 
-- [ ] 3.1.1 `MorseBeaconApp` with single `WindowGroup` hosting a root coordinator view.
-- [ ] 3.1.2 Root view chooses: `SafetyWarningView` (if not acknowledged) → `InputView`.
-- [ ] 3.1.3 Inject shared `Transmitter`, `Settings` (observable), `ScreenController` into environment.
+- [x] 3.1.1 `MorseBeaconApp` with single `WindowGroup` hosting `RootView`.
+- [x] 3.1.2 `RootView` reads `@AppStorage("safetyAcknowledgedV1")` and shows `SafetyWarningView` when false, an `InputPlaceholderView` (replaced by `InputView` in 3.3) when true.
+- [ ] 3.1.3 Inject shared `Transmitter`, `SettingsStore`, `ScreenController` into environment. *(Deferred until first consumer view needs them; 3.3 InputView will trigger this.)*
 
 ### 3.2 `SafetyWarningView`
 
-- [ ] 3.2.1 Full-screen modal, dismissible only via explicit "I understand" button (FR-21).
-- [ ] 3.2.2 Persist acknowledgement flag in UserDefaults (`safetyAcknowledgedV1`).
-- [ ] 3.2.3 Snapshot test (optional) for layout.
+- [x] 3.2.1 Full-screen black background, yellow `bolt.trianglebadge.exclamationmark.fill` icon, photosensitivity warning text per FR-21 (verbatim), bottom "I understand" yellow button. Dismissible only via the button — no swipe, no tap-outside.
+- [x] 3.2.2 Persists ack via `@AppStorage("safetyAcknowledgedV1")`.
+- [x] 3.2.3 Layout verified by booting the app in iOS Simulator and screenshotting; matches FR-21 text. Snapshot tests deferred (require iOS-only test target work).
+
+**Implementation note.** Verified end-to-end by booting iPhone 17 Pro simulator (`xcrun simctl boot/install/launch`) and capturing the launch screenshot. Loop is: edit → `./scripts/build-ios.sh` → `simctl install/launch` → `simctl io screenshot`. Reproducible without opening Xcode.
 
 ### 3.3 `InputView`
 
