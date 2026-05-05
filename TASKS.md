@@ -146,12 +146,14 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 
 ### 3.3 `InputView`
 
-- [ ] 3.3.1 Text field, multiline capable, 160-char cap (FR-3) with live counter.
-- [ ] 3.3.2 Live validation via `ValidatedMessage` init (R2); on failure, underline the offending character at the reported index; Transmit disabled while invalid or empty. Single source of truth: `MorseTable.supports(_:)`.
-- [ ] 3.3.3 Load last message from UserDefaults on appear; save on change (FR-4).
-- [ ] 3.3.4 Settings gear → pushes `SettingsView`.
-- [ ] 3.3.5 Transmit button → pushes `CountdownView`.
-- [ ] 3.3.6 Accessibility labels for text field, counter, Transmit, Settings.
+- [x] 3.3.1 `TextEditor` (multiline) with live `"\(count) / \(maxLength)"` counter. 160-char cap enforced at typing layer via `.onChange` truncation.
+- [x] 3.3.2 Live validation via `ValidatedMessage` init. Inline red error label below the editor: "Character '‘X’' at position N is not supported" (1-indexed for humans). Transmit disabled while invalid or empty. The character isn't underlined in-editor (would require AttributedString/UITextView bridging — deferred); the error label is sufficient.
+- [x] 3.3.3 Bound directly to `settings.lastMessage`; SettingsStore handles UserDefaults persistence transparently.
+- [x] 3.3.4 Gear icon in toolbar pushes `SettingsView` via `NavigationLink`.
+- [x] 3.3.5 Transmit builds `ValidatedMessage → [TimedElement] → [ScheduleTick]` via `settings.makeTimingProfile()`, then calls `transmitter.start(schedule)` and presents `TransmissionContainerView` as a `fullScreenCover`.
+- [x] 3.3.6 `accessibilityLabel` set on the message editor, character counter, gear button, and Transmit button. Transmit's `accessibilityHint` distinguishes enabled vs disabled.
+
+**Visual verification:** screenshotted three states via `MB_LAUNCH_TO=input` — empty (placeholder, disabled button), valid ("SOS HELP" + 8/160 + enabled blue button), invalid ("HELL#O" + red error + disabled button).
 
 ### 3.4 `SettingsStore` + `SettingsView`
 
@@ -166,12 +168,15 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 
 ### 3.5 `CountdownView`
 
-- [ ] 3.5.1 5s countdown with large numeral, "Aim your phone" caption. Per R3: shown on every entry to beacon mode, including "Transmit again."
-- [ ] 3.5.2 Tap anywhere cancels, pops back to Input.
-- [ ] 3.5.3 On 0, pushes `BeaconView`.
+- [x] 3.5.1 Large monospaced numeral (220pt), "Aim your phone" caption, "Tap anywhere to cancel" footer. Number bound to `transmitter.state`'s `.countdown(secondsLeft:)` value with `.contentTransition(.numericText(countsDown: true))` for smooth animated counting on iOS 17+. Per R3, every entry to beacon mode (including "Transmit again") goes through the countdown.
+- [x] 3.5.2 Outer tap gesture on `TransmissionContainerView` calls `transmitter.abort()` during `.countdown` or `.transmitting`; on `.aborted`, the cover dismisses back to InputView via `.onChange(of: transmitter.state)`.
+- [x] 3.5.3 When state advances from `.countdown` to `.transmitting`, the container view switches to `BeaconView` (currently a placeholder — full impl is 3.6). When state reaches `.finished`, switches to `FinishedView` with "Transmit again" / "Done" buttons (PRD §3.4).
+
+**Visual verification:** `MB_LAUNCH_TO=countdown` shows the number animating from 5 down to 0 driven by the real `DispatchClock` — which means the countdown timer pipeline is live, not just static rendering. `MB_LAUNCH_TO=finished` shows the post-transmission screen with checkmark + Transmit again / Done buttons.
 
 ### 3.6 `BeaconView`
 
+- [ ] 3.6.0 **Stub created** (renders "Beacon view pending" + tick debug info on black). Already wired into `TransmissionContainerView`; replace with full impl.
 - [ ] 3.6.1 Orientation lock at appear: implement `OrientationLockHostingController` (UIViewControllerRepresentable) overriding `supportedInterfaceOrientations` (CLAUDE.md gotcha).
 - [ ] 3.6.2 `onAppear`: `ScreenController.acquire()`, `Transmitter.start(schedule)`. `onDisappear`: `ScreenController.release()`.
 - [ ] 3.6.3 Layout: top strip 88pt (HUD), 4pt black separator, rest = flash area (FR-9, FR-14).

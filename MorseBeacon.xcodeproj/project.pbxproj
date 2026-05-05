@@ -28,6 +28,9 @@
 		200C000000000000000000C0 /* SafetyWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C0 /* SafetyWarningView.swift */; };
 		200C000000000000000000C1 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C1 /* RootView.swift */; };
 		200C000000000000000000C2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C2 /* SettingsView.swift */; };
+		200C000000000000000000C3 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C3 /* InputView.swift */; };
+		200C000000000000000000C4 /* CountdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C4 /* CountdownView.swift */; };
+		200C000000000000000000C5 /* BeaconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100C000000000000000000C5 /* BeaconView.swift */; };
 		200D000000000000000000D0 /* MorseBeaconApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D0 /* MorseBeaconApp.swift */; };
 		200D000000000000000000D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D2 /* Assets.xcassets */; };
 		200D000000000000000000D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D3 /* Preview Assets.xcassets */; };
@@ -66,6 +69,9 @@
 		100C000000000000000000C0 /* SafetyWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyWarningView.swift; sourceTree = "<group>"; };
 		100C000000000000000000C1 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		100C000000000000000000C2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		100C000000000000000000C3 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		100C000000000000000000C4 /* CountdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownView.swift; sourceTree = "<group>"; };
+		100C000000000000000000C5 /* BeaconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconView.swift; sourceTree = "<group>"; };
 		100D000000000000000000D0 /* MorseBeaconApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseBeaconApp.swift; sourceTree = "<group>"; };
 		100D000000000000000000D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		100D000000000000000000D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -163,6 +169,9 @@
 				100C000000000000000000C1 /* RootView.swift */,
 				100C000000000000000000C0 /* SafetyWarningView.swift */,
 				100C000000000000000000C2 /* SettingsView.swift */,
+				100C000000000000000000C3 /* InputView.swift */,
+				100C000000000000000000C4 /* CountdownView.swift */,
+				100C000000000000000000C5 /* BeaconView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -296,6 +305,9 @@
 				200C000000000000000000C0 /* SafetyWarningView.swift in Sources */,
 				200C000000000000000000C1 /* RootView.swift in Sources */,
 				200C000000000000000000C2 /* SettingsView.swift in Sources */,
+				200C000000000000000000C3 /* InputView.swift in Sources */,
+				200C000000000000000000C4 /* CountdownView.swift in Sources */,
+				200C000000000000000000C5 /* BeaconView.swift in Sources */,
 				200D000000000000000000D0 /* MorseBeaconApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
