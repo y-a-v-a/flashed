@@ -219,23 +219,23 @@ This is the entire pipeline live: DispatchClock → Transmitter callback → sta
 
 ## 5. Verification against PRD acceptance criteria
 
-- [ ] 5.1 AC-1: "SOS" @ 10 WPM PARIS, measured end-to-end on device within ±50 ms. Record procedure in `docs/ac1-measurement.md`.
-- [ ] 5.2 AC-2: Tap-to-abort returns to input < 200 ms with brightness restored. Verify on device.
-- [ ] 5.3 AC-3: HUD highlight and flash stay in lockstep. Verify by 240fps screen recording.
-- [ ] 5.4 AC-4: `Tests/TransmissionScheduleTests.testParisInvariantIs50Units` passes (encoded in 1.5.2).
-- [ ] 5.5 AC-5: Background-during-transmission aborts cleanly; brightness restored on foreground.
+- [ ] 5.1 AC-1: "SOS" @ 10 WPM PARIS, measured end-to-end on device within ±50 ms. Procedure in `docs/on-device-checklist.md` §2.
+- [ ] 5.2 AC-2: Tap-to-abort returns to input < 200 ms with brightness restored. Procedure in `docs/on-device-checklist.md` §2.
+- [ ] 5.3 AC-3: HUD highlight and flash stay in lockstep. Procedure in `docs/on-device-checklist.md` §2; needs 240fps slo-mo recording.
+- [x] 5.4 AC-4: `MorseBeaconTests/Core/TransmissionScheduleTests.testParisInvariantIs50Units` passes.
+- [ ] 5.5 AC-5: Background-during-transmission aborts cleanly; brightness restored on foreground. Procedure in `docs/on-device-checklist.md` §2.
 
 ## 6. Pre-release checks
 
-- [ ] 6.1 `xcodebuild test` clean on iPhone 15 simulator + one physical device.
+- [ ] 6.1 `xcodebuild test` clean on iPhone simulator (verified on iPhone 17 Pro) + one physical device. Procedure in `docs/on-device-checklist.md` §1.
 - [ ] 6.2 Zero warnings, zero force unwraps outside `Tests/`, zero `try!` in production.
 - [ ] 6.3 `scripts/check-core-purity.sh` passes locally and in CI (enforces `Core/` has no UIKit/SwiftUI/Foundation.Timer imports).
 - [ ] 6.4 `scripts/check-screen-isolation.sh` passes locally and in CI (enforces only `MorseBeacon/Runtime/ScreenController.swift` touches `UIScreen` / `isIdleTimerDisabled`).
 - [x] 6.5 Binary size < 5 MB (NFR-4). `scripts/measure-binary-size.sh` builds Release into a temp DerivedData, measures via `du -sk`. **Current: 1.9 MB** — well under threshold.
-- [ ] 6.6 Launch time < 500 ms on iPhone 12+ (NFR-1). Measure with Instruments.
+- [ ] 6.6 Launch time < 500 ms on iPhone 12+ (NFR-1). Procedure in `docs/on-device-checklist.md` §4. Measure with Instruments App Launch template.
 - [x] 6.7 Confirm no network calls: `scripts/check-no-network.sh` greps the entire app target for networking primitives (URLSession, URLRequest, NSURL*, dataTask, CFNetwork, import Network, URLProtocol). Currently passes on 30 Swift files. Wired into `check-all.sh` and CI. The only `URL` in the app is `mailto:info@vincentbruijn.nl` in AboutView (not a network call).
-- [ ] 6.8 App Store metadata: description, screenshots (dark beacon frame + input + settings), privacy nutrition label (all "data not collected"), photosensitivity warning in description.
-- [ ] 6.9 TestFlight pass with at least one external tester doing a real night-time line-of-sight test.
+- [x] 6.8 App Store metadata drafted in `docs/app-store.md`: description, subtitle, keywords, what's-new, privacy nutrition label (all "Data Not Collected" — enforced by `check-no-network.sh`), age rating walk-through, reviewer notes, screenshot procedure. Privacy policy in `docs/privacy-policy.md`. Final upload to App Store Connect pending real bundle ID + signing.
+- [ ] 6.9 TestFlight pass with at least one external tester doing a real night-time line-of-sight test. Final sign-off in `docs/on-device-checklist.md` §7.
 
 ## 7. Documentation
 
