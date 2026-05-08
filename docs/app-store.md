@@ -73,7 +73,7 @@ morse,beacon,signal,flashlight,communication,line of sight,emergency,utility,tor
 |---|---|
 | **Support URL** | (set to project repo or `mailto:info@vincentbruijn.nl`) |
 | **Marketing URL** | (optional; leave blank for v1) |
-| **Privacy Policy URL** | Required by App Store. See `docs/privacy-policy.md` (TODO) — the policy is short: "We collect no data." |
+| **Privacy Policy URL** | Required by App Store. Source text in `docs/privacy-policy.md`; host as static HTML on the author's site (e.g., `vincentbruijn.nl/morse-beacon/privacy/`) and put that URL here. The policy is short: "We collect no data." |
 
 ## Privacy nutrition label
 

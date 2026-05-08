@@ -52,3 +52,9 @@ fastlane/test_output
 .vscode/
 .idea/
 *.iml
+
+# Screenshot output (regenerated on demand via scripts/take-screenshots.sh).
+# We keep the script tracked, not the artefacts — the screenshots include
+# wallpaper, status-bar timestamps, and other ephemeral content that
+# would churn every commit.
+docs/screenshots/
