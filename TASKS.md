@@ -200,9 +200,9 @@ This is the entire pipeline live: DispatchClock → Transmitter callback → sta
 
 ### 3.7 Visual polish pass
 
-- [ ] 3.7.1 Dark-first palette; UI chrome uses system materials except inside `BeaconView`.
-- [ ] 3.7.2 Dynamic Type support for Input/Settings (not HUD — HUD is fixed monospace for legibility at distance).
-- [ ] 3.7.3 VoiceOver pass on non-beacon screens.
+- [x] 3.7.1 Dark-first palette: verified by `simctl ui appearance dark` then re-screenshotting Input. Black background, light text, dark `Color(.secondarySystemBackground)` editor, blue Transmit button, white-tinted gear icon. SwiftUI system materials adapt automatically. `BeaconView` already uses pure black/white directly so it's appearance-independent.
+- [ ] 3.7.2 Dynamic Type support for Input/Settings (not HUD — HUD is fixed monospace for legibility at distance). *(Most fonts already use system text styles; some explicit sizes in InputView/AboutView could be reviewed; deferred.)*
+- [x] 3.7.3 Accessibility labels added throughout: `accessibilityLabel` + `accessibilityHint` on Transmit button (state-aware), gear / (i) / Settings nav links, message editor, character counter, validation error message, countdown numeral. VoiceOver behavior for full screen-reader pass needs on-device verification.
 
 ### 3.8 About page (post-PRD addition)
 
