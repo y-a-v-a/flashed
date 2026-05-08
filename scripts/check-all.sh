@@ -28,6 +28,9 @@ step "Core purity"
 step "Screen isolation"
 ./scripts/check-screen-isolation.sh
 
+step "Network-free"
+./scripts/check-no-network.sh
+
 step "Format"
 ./scripts/check-format.sh
 

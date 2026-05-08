@@ -39,6 +39,9 @@ jobs:
       - name: Screen isolation
         run: ./scripts/check-screen-isolation.sh
 
+      - name: Network-free (NFR-2)
+        run: ./scripts/check-no-network.sh
+
       - name: Format (swift-format --strict)
         run: ./scripts/check-format.sh
 
