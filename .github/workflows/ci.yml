@@ -26,6 +26,8 @@ jobs:
           xcodebuild -version
           swift --version
           xcrun swift-format --version
+          echo "--- .swift-format ---"
+          cat .swift-format
           echo "--- iOS runtimes ---"
           xcrun simctl list runtimes | head -10
           echo "--- iPhone simulators (first 5) ---"
