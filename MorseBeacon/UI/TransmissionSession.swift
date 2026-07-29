@@ -15,11 +15,23 @@ struct TransmissionSession: Equatable {
   /// by HUD line 1.
   let message: String
 
-  /// Encoded element stream. Used by HUD line 2 (via `MorseRenderer`) and
-  /// to provide `sourceCharIndex` lookups for the highlight.
+  /// Encoded element stream — the source `line2` is rendered from.
   let elements: [TimedElement]
 
   /// Tick schedule passed to `Transmitter.start`. Driving authority for
   /// playback timing.
   let schedule: [ScheduleTick]
+
+  /// HUD line 2 (rendered Morse + element→column map), computed once per
+  /// session. `BeaconView` and its HUD are re-created on every tick, so
+  /// rendering here keeps O(message-length) string building out of the
+  /// per-flip path on the main queue — the queue the flash timing runs on.
+  let line2: MorseRenderer.Line2
+
+  init(message: String, elements: [TimedElement], schedule: [ScheduleTick]) {
+    self.message = message
+    self.elements = elements
+    self.schedule = schedule
+    self.line2 = MorseRenderer.renderLine2(elements)
+  }
 }

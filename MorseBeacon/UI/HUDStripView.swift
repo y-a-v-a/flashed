@@ -18,24 +18,17 @@ import SwiftUI
 struct HUDStripView: View {
 
   let message: String
-  let elements: [TimedElement]
-  let currentTick: ScheduleTick
 
-  /// Pre-computed Morse rendering and column lookup. Derived once from
-  /// `elements`; doesn't change per tick.
-  private let line2: MorseRenderer.Line2
+  /// Pre-computed Morse rendering and column lookup, rendered once per
+  /// session by `TransmissionSession` — never per tick.
+  let line2: MorseRenderer.Line2
+
+  let currentTick: ScheduleTick
 
   /// Last known highlight positions, used to anchor the scroll viewport
   /// during gap ticks. Updated only on `isOn` ticks (R4).
   @State private var lastCharIndex: Int = 0
   @State private var lastColumn: Int = 0
-
-  init(message: String, elements: [TimedElement], currentTick: ScheduleTick) {
-    self.message = message
-    self.elements = elements
-    self.currentTick = currentTick
-    self.line2 = MorseRenderer.renderLine2(elements)
-  }
 
   var body: some View {
     VStack(alignment: .leading, spacing: 4) {
