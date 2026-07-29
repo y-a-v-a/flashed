@@ -120,7 +120,10 @@ screen pinned at full brightness.
 For the full reasoning — the Farnsworth algebra, the 50-unit proof, the jitter
 strategy — see [`docs/timing.md`](docs/timing.md). For the layer rules, see
 [`CLAUDE.md`](CLAUDE.md) and [`LAYOUT.md`](LAYOUT.md). For requirements and
-acceptance criteria, [`PRD.md`](PRD.md).
+acceptance criteria, [`PRD.md`](PRD.md). For a plain-language one-pager to
+hand to a non-developer — what the app is and does, no code — open
+[`docs/explainer.html`](docs/explainer.html) in a browser (or host it
+anywhere; it's a single self-contained file).
 
 ## How to use it
 
@@ -143,9 +146,11 @@ Speed and model live in **Settings** (gear icon): PARIS or Farnsworth, character
 WPM 5–20, and a Farnsworth effective-WPM slider. With *Reduce Motion* enabled,
 the maximum speed is capped at 10 WPM for a gentler flash.
 
-| Safety gate | Input | Settings | Countdown | Beacon |
-|---|---|---|---|---|
-| ![Safety warning](docs/screenshots/0-safety-warning.png) | ![Input](docs/screenshots/1-input.png) | ![Settings](docs/screenshots/2-settings.png) | ![Countdown](docs/screenshots/3-countdown.png) | ![Beacon](docs/screenshots/4-beacon.png) |
+Screenshots of all five screens (safety gate, input, settings, countdown,
+beacon) can be regenerated headlessly at any time with
+`./scripts/take-screenshots.sh`. They are deliberately not committed —
+status-bar clocks and other ephemera would churn every commit; the script
+is the artefact.
 
 ## Build, test, verify
 
@@ -198,6 +203,22 @@ release binary size, ~1.9 MB against a <5 MB target.
 > clean abort on backgrounding. The Simulator can't reproduce them. The
 > on-device sign-off procedure lives in
 > [`docs/on-device-checklist.md`](docs/on-device-checklist.md).
+
+## Put it on your phone — no App Store needed
+
+There is no App Store listing, and none is required: Apple lets you install
+your own build on your own iPhone with a free Apple ID. In short — open
+`MorseBeacon.xcodeproj`, set your team and a unique bundle ID under
+**Signing & Capabilities**, plug in the phone, **⌘R**. Or headlessly:
+
+```bash
+TEAM_ID=ABCDE12345 BUNDLE_ID=com.you.morsebeacon ./scripts/install-on-device.sh
+```
+
+One-time device setup (Developer Mode, trusting the certificate), the
+free-tier fine print (7-day signature, three sideloaded apps), and the
+options for giving the app to someone else are all in
+[`docs/install-on-device.md`](docs/install-on-device.md).
 
 ## Known constraints
 

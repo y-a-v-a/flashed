@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morse Beacon — turn an iPhone into a signal lamp</title>
+<meta name="description" content="Morse Beacon is a transmit-only iOS app that flashes your message in International Morse code at full screen brightness — a signal lamp for night-time, line-of-sight communication.">
+<style>
+  :root {
+    --bg: #0b0d10;
+    --panel: #14181d;
+    --ink: #e8e6e1;
+    --dim: #9aa3ad;
+    --amber: #ffa500;
+    --hud: #666;
+    --line: #262c33;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 680px; margin: 0 auto; padding: 3.5rem 1.25rem 4rem; }
+  h1, h2 { line-height: 1.2; letter-spacing: -0.01em; }
+  h1 { font-size: 2.3rem; margin-bottom: 0.4rem; }
+  h2 { font-size: 1.35rem; margin: 2.8rem 0 0.9rem; }
+  p { margin: 0.85rem 0; }
+  a { color: var(--amber); }
+  code, .morse {
+    font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .tagline { color: var(--dim); font-size: 1.15rem; }
+  .morse-banner {
+    color: var(--amber);
+    font-size: 1.4rem;
+    letter-spacing: 0.12em;
+    margin: 0.8rem 0 0;
+    user-select: none;
+  }
+  .warning {
+    background: #2a1d00;
+    border: 1px solid #7a5200;
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    margin: 2rem 0;
+    color: #ffd98a;
+    font-size: 0.95rem;
+  }
+  .warning strong { color: #ffc04d; }
+  ol.steps { margin: 1rem 0 1rem 1.4rem; }
+  ol.steps li { margin: 0.55rem 0; padding-left: 0.3rem; }
+  .phone {
+    width: 250px;
+    margin: 1.6rem auto;
+    border: 3px solid #3a4149;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #000;
+  }
+  .phone .hud {
+    background: var(--hud);
+    color: #fff;
+    padding: 14px 12px 10px;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  .phone .hud .l1 { font-size: 1.15rem; font-weight: 600; letter-spacing: 0.05em; }
+  .phone .hud .l2 { font-size: 0.95rem; margin-top: 2px; white-space: nowrap; overflow: hidden; }
+  .phone .hud .hl { background: var(--amber); color: #000; }
+  .phone .sep { height: 4px; background: #000; }
+  .phone .flash {
+    height: 300px;
+    background: #fff;
+    color: #777;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: 0.75rem;
+    padding-bottom: 10px;
+  }
+  .caption { text-align: center; color: var(--dim); font-size: 0.85rem; margin-top: -0.6rem; }
+  table {
+    border-collapse: collapse;
+    margin: 1rem 0;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+  th, td { text-align: left; padding: 0.45rem 0.8rem 0.45rem 0; border-bottom: 1px solid var(--line); }
+  th { color: var(--dim); font-weight: 600; }
+  .fact { color: var(--dim); font-size: 0.95rem; }
+  footer {
+    margin-top: 3.5rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--line);
+    color: var(--dim);
+    font-size: 0.9rem;
+  }
+  @media (max-width: 480px) {
+    h1 { font-size: 1.8rem; }
+    .phone { width: 210px; }
+    .phone .flash { height: 250px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Morse Beacon</h1>
+    <p class="tagline">Turn an iPhone into a signal lamp.</p>
+    <p class="morse-banner" aria-hidden="true">−− −−− ·−· ··· ·</p>
+  </header>
+
+  <div class="warning">
+    <strong>⚠︎ Photosensitivity warning.</strong> This app produces rapid
+    flashing light that may trigger seizures in people with photosensitive
+    epilepsy. Do not use it if you — or anyone who can see the screen — is
+    affected. The app requires an explicit acknowledgement of this warning
+    before it will flash anything. (This page itself does not flash.)
+  </div>
+
+  <h2>What it is</h2>
+  <p>
+    Morse Beacon is an iPhone app that takes a short message you type and
+    flashes it in <strong>International Morse code</strong>, using the whole
+    screen as the lamp: pure white for every dit and dah, pure black in
+    between, at maximum brightness. Anyone who can see your screen — across
+    a valley, from a shore, down a street — can read the message with
+    nothing but their eyes and knowledge of the code.
+  </p>
+  <p>
+    It transmits only. It has no camera, no microphone, no decoder, no
+    history, no network connection and no account. Think of it as the
+    Apple&nbsp;Watch flashlight's search-light mode, given grammar.
+  </p>
+
+  <h2>When you would use it</h2>
+  <p>
+    Night-time, line-of-sight signaling between people: two hikers on
+    opposite ridges, a boat and a shore, a window and a street. Anywhere a
+    steady flashing light carries further and reads cleaner than a shout —
+    or where silence matters.
+  </p>
+
+  <h2>How a transmission works</h2>
+  <ol class="steps">
+    <li><strong>Type the message.</strong> Up to 160 characters — letters,
+        digits, and common punctuation. The app checks it as you type and
+        won't transmit anything it can't encode.</li>
+    <li><strong>Tap Transmit.</strong> A 5-second countdown gives you time
+        to aim the phone and warn anyone nearby.</li>
+    <li><strong>Aim.</strong> The screen flashes the message. A dim strip
+        at the top shows your text and its Morse, with the current
+        character highlighted in amber exactly in step with the flash — so
+        you always know what the lamp is "saying".</li>
+    <li><strong>Tap anywhere to stop</strong> — instantly, at any moment.
+        When the message completes, one tap repeats it.</li>
+  </ol>
+
+  <div class="phone" role="img" aria-label="Mock of the app mid-transmission: a dim HUD strip on top shows the message HELLO and its Morse code with the current letter highlighted; the rest of the screen is the white flash area.">
+    <div class="hud">
+      <div class="l1">HE<span class="hl">L</span>LO</div>
+      <div class="l2 morse">···· &nbsp;·&nbsp; <span class="hl">·−··</span>&nbsp; ·−·· &nbsp;−−−</div>
+    </div>
+    <div class="sep"></div>
+    <div class="flash">flash area — white while “on”, black while “off”</div>
+  </div>
+  <p class="caption">Mid-transmission: the HUD never flashes; the rest of the screen is the lamp.</p>
+
+  <h2>Timing you can trust</h2>
+  <p>
+    Morse is readable only if the rhythm is right: the gap inside a letter
+    must be reliably shorter than the gap between letters. The app schedules
+    every flash against absolute clock deadlines (not "sleep and hope"), so
+    the pattern stays crisp even while the phone is busy drawing. Speeds
+    follow the standard <span class="fact">PARIS</span> convention
+    (5–20&nbsp;words per minute), plus the
+    <span class="fact">Farnsworth</span> mode learners prefer: crisp
+    full-speed characters with stretched pauses in between.
+  </p>
+
+  <h2>Private by construction</h2>
+  <p>
+    No network code, no analytics, no permissions prompts, no accounts —
+    verified by automated checks on every change, not just promised. The
+    only thing the app remembers is your last message and your settings, on
+    your device. A beacon you can trust is one that obviously
+    <em>cannot</em> be doing anything else.
+  </p>
+
+  <h2>Practical details</h2>
+  <table>
+    <tr><th>Requires</th><td>iPhone with iOS 17 or newer</td></tr>
+    <tr><th>Price</th><td>Free, open source (MIT)</td></tr>
+    <tr><th>Speed range</th><td>5–20 WPM (capped at 10 when iOS Reduce&nbsp;Motion is on)</td></tr>
+    <tr><th>Safety</th><td>Photosensitivity gate on first launch; tap-anywhere abort</td></tr>
+    <tr><th>Battery/screen</th><td>Your brightness and auto-lock settings are restored after every transmission</td></tr>
+  </table>
+
+  <h2>Get it</h2>
+  <p>
+    Morse Beacon is distributed as source code — you build it onto your own
+    phone with Xcode; no App Store involved. The step-by-step guide
+    (including the free-Apple-ID route) is in
+    <a href="https://github.com/y-a-v-a/flashed/blob/main/docs/install-on-device.md">install-on-device.md</a>;
+    the code, and the reasoning behind it, lives at
+    <a href="https://github.com/y-a-v-a/flashed">github.com/y-a-v-a/flashed</a>.
+  </p>
+
+  <footer>
+    <p>© 2026 Vincent Bruijn · <a href="https://vincentbruijn.nl">vincentbruijn.nl</a> ·
+       MIT License</p>
+    <p>Morse encoding per ITU-R M.1677-1 · “−− −−− ·−· ··· ·” is “MORSE”.</p>
+  </footer>
+</main>
+</body>
+</html>

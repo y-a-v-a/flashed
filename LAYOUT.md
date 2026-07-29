@@ -25,6 +25,8 @@ flashed/                                    (repo root)
 ├── CLAUDE.md
 ├── TASKS.md
 ├── LAYOUT.md                               (this file)
+├── LICENSE                                 (MIT)
+├── Package.swift                           (dev-only SwiftPM overlay for `swift test`; NOT the TASKS 0.7 extraction)
 ├── .gitignore
 ├── .swift-format
 ├── .github/
@@ -34,7 +36,7 @@ flashed/                                    (repo root)
 ├── MorseBeacon.xcodeproj/
 │
 ├── MorseBeacon/                            (app target sources)
-│   ├── MorseBeaconApp.swift                (@main)
+│   ├── MorseBeaconApp.swift                (@main; owns the app-wide SettingsStore/Transmitter + MB_LAUNCH_TO debug routes)
 │   ├── Info.plist                          (explicit, not generated)
 │   ├── Assets.xcassets/
 │   │   ├── AppIcon.appiconset/
@@ -65,18 +67,20 @@ flashed/                                    (repo root)
 │   │   └── SettingsStore.swift             (ObservableObject over UserDefaults)
 │   │
 │   └── UI/                                 (SwiftUI)
-│       ├── RootView.swift                  (SafetyWarning → Input coordinator; env injection)
+│       ├── RootView.swift                  (SafetyWarning → Input coordinator; receives app-level store + transmitter)
 │       ├── SafetyWarningView.swift
 │       ├── InputView.swift
 │       ├── SettingsView.swift
-│       ├── CountdownView.swift
-│       ├── BeaconView.swift
+│       ├── CountdownView.swift             (+ TransmissionContainerView + file-private FinishedView)
+│       ├── BeaconView.swift                (+ file-private FlashAreaView + ScreenController env key)
 │       ├── HUDStripView.swift
-│       ├── FlashAreaView.swift
+│       ├── TransmissionSession.swift       (message + elements + schedule + pre-rendered HUD line 2)
 │       ├── OrientationLockHost.swift       (UIViewControllerRepresentable)
+│       ├── AboutView.swift
 │       └── Theme.swift                     (#FFA500 amber, fonts, spacings)
 │
 ├── MorseBeaconTests/
+│   ├── MorseBeaconTests.swift              (Xcode-target stub; real tests run via SwiftPM)
 │   ├── Core/
 │   │   ├── MorseTableTests.swift
 │   │   ├── ValidatedMessageTests.swift
@@ -86,20 +90,36 @@ flashed/                                    (repo root)
 │   │   └── MorseRendererTests.swift
 │   ├── Runtime/
 │   │   ├── ScreenControllerTests.swift     (uses ScreenProxy fake)
-│   │   └── TransmitterTests.swift          (uses fake Clock + fake timer)
+│   │   ├── TransmitterTests.swift          (uses fake Clock + fake timer)
+│   │   ├── ClockTests.swift
+│   │   ├── SettingsStoreTests.swift
+│   │   └── AccessibilityFlagsTests.swift
 │   └── Fixtures/
-│       └── KnownMorse.swift                (SOS, PARIS, etc. — shared golden values)
-│
-├── MorseBeaconUITests/                     (stub target; no tests until an AC demands one)
-│   └── .gitkeep
+│       └── .gitkeep                        (golden values are inline per test file so far)
 │
 ├── scripts/
+│   ├── build-ios.sh                        (xcodebuild, generic simulator destination)
+│   ├── test-ios.sh                         (xcodebuild test, auto-detects a simulator)
+│   ├── check-all.sh                        (every CI gate in sequence)
 │   ├── check-core-purity.sh
-│   └── check-screen-isolation.sh
+│   ├── check-screen-isolation.sh
+│   ├── check-no-network.sh
+│   ├── check-format.sh / format.sh
+│   ├── install-on-device.sh               (build + devicectl install on a connected iPhone)
+│   ├── measure-core-coverage.sh
+│   ├── measure-binary-size.sh
+│   ├── take-screenshots.sh                (outputs to docs/screenshots/, gitignored)
+│   └── generate-app-icon.swift
 │
 └── docs/
-    ├── timing.md
-    └── ac1-measurement.md
+    ├── timing.md                           (PARIS/Farnsworth algebra + FR-12 measurement procedure)
+    ├── dev-workflow.md                     (headless edit/build/sim/screenshot loop)
+    ├── on-device-checklist.md              (everything headless can't verify)
+    ├── coverage.md
+    ├── app-store.md                        (metadata drafts, if ever submitted)
+    ├── privacy-policy.md
+    ├── install-on-device.md                (no-App-Store install guide)
+    └── explainer.html                      (self-contained plain-language one-pager)
 ```
 
 ## File placement decisions (locked)

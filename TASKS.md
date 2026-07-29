@@ -239,7 +239,7 @@ This is the entire pipeline live: DispatchClock → Transmitter callback → sta
 
 ## 7. Documentation
 
-- [ ] 7.1 README: what it is, how to build, how to use, photosensitivity warning, known constraints (Auto-Brightness, True Tone, Night Shift — CLAUDE.md gotchas). *(Deferred per project policy of keeping root .md files untracked unless explicitly requested.)*
+- [x] 7.1 README: what it is, how to build, how to use, photosensitivity warning, known constraints (Auto-Brightness, True Tone, Night Shift — CLAUDE.md gotchas). Landed together with LICENSE; later extended with the no-App-Store install path (`docs/install-on-device.md`, `scripts/install-on-device.sh`) and the shareable plain-language one-pager `docs/explainer.html`.
 - [x] 7.2 `docs/timing.md`: PARIS vs Farnsworth (with algebra), the 50-unit invariant proof, the integer-rounding short-circuit at e==c, FR-12 architecture (DispatchSourceTimer + .strict + absolute deadlines), and an executable on-device jitter measurement procedure.
 - [x] 7.3 Inline doc comments on `Core/` and `Runtime/` public API. Audit script confirms zero undocumented public symbols across both targets.
 - [x] 7.4 `docs/app-store.md` (post-PRD addition): App Store Connect text fields (description, subtitle, keywords, what's-new), privacy nutrition label (all "Data Not Collected"), age rating walk-through, screenshot procedure (all five screens captureable headlessly via `MB_LAUNCH_TO`), reviewer notes, pre-submission checklist.
