@@ -7,6 +7,9 @@ import SwiftUI
 
 @main
 struct MorseBeaconApp: App {
+  /// Single app-wide instances, passed down to `RootView`. The
+  /// backgrounding observer below aborts `transmitter`, so the UI must
+  /// drive this same instance for AC-5 to hold.
   @StateObject private var settings = SettingsStore()
   @StateObject private var transmitter = Transmitter(clock: DispatchClock())
 
@@ -68,10 +71,10 @@ struct MorseBeaconApp: App {
           onRestart: {}
         )
       default:
-        RootView()
+        RootView(settings: settings, transmitter: transmitter)
       }
     #else
-      RootView()
+      RootView(settings: settings, transmitter: transmitter)
     #endif
   }
 

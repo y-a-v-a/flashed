@@ -31,20 +31,26 @@ public enum MorseRenderer {
 
   public static func renderLine2(_ elements: [TimedElement]) -> Line2 {
     var out = ""
+    // Running column count; `out.count` would re-walk the whole string
+    // on every element (String.count is O(length)).
+    var column = 0
     var map: [Int: Int] = [:]
     map.reserveCapacity(elements.count)
 
     for element in elements {
       // Column BEFORE appending this element is where the element starts.
-      map[element.elementIndexInMessage] = out.count
+      map[element.elementIndexInMessage] = column
 
+      let glyphs: String
       switch element.kind {
-      case .dit: out += "·"
-      case .dah: out += "−"
-      case .intraGap: break  // zero-width, see doc comment
-      case .charGap: out += "   "  // 3 spaces
-      case .wordGap: out += "       "  // 7 spaces
+      case .dit: glyphs = "·"
+      case .dah: glyphs = "−"
+      case .intraGap: glyphs = ""  // zero-width, see doc comment
+      case .charGap: glyphs = "   "  // 3 spaces
+      case .wordGap: glyphs = "       "  // 7 spaces
       }
+      out += glyphs
+      column += glyphs.count
     }
 
     return Line2(string: out, elementIndexToColumn: map)

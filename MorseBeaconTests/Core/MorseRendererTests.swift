@@ -67,6 +67,27 @@ final class MorseRendererTests: XCTestCase {
     }
   }
 
+  func test_columnMap_equalsRenderedPrefixWidth() throws {
+    // Each element's column must equal the rendered width of everything
+    // before it — i.e. the map is consistent with the string, element by
+    // element, not just in aggregate.
+    let elements = MorseEncoder.encode(try ValidatedMessage("SOS PARIS 73"))
+    let line = MorseRenderer.renderLine2(elements)
+    var expectedColumn = 0
+    for e in elements {
+      XCTAssertEqual(
+        line.elementIndexToColumn[e.elementIndexInMessage], expectedColumn,
+        "column mismatch at element \(e.elementIndexInMessage) (\(e.kind))")
+      switch e.kind {
+      case .dit, .dah: expectedColumn += 1
+      case .intraGap: break
+      case .charGap: expectedColumn += 3
+      case .wordGap: expectedColumn += 7
+      }
+    }
+    XCTAssertEqual(line.string.count, expectedColumn)
+  }
+
   func test_columnMap_valuesAreWithinStringBounds() throws {
     let line = try render("SOS PARIS")
     let length = line.string.count

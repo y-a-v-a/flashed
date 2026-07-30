@@ -35,7 +35,7 @@ struct BeaconView: View {
       VStack(spacing: 0) {
         HUDStripView(
           message: session.message,
-          elements: session.elements,
+          line2: session.line2,
           currentTick: tick
         )
 
