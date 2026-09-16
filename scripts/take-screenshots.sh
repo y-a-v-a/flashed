@@ -27,12 +27,24 @@ mkdir -p "$OUT_DIR"
 # Build first so the .app exists and is fresh.
 ./scripts/build-ios.sh
 
-# Resolve simulator + app paths.
-SIM=$(xcrun simctl list devices booted 2>/dev/null | grep -E '^[[:space:]]+iPhone ' | head -1 \
-  | sed -E 's/.*\(([A-F0-9-]{36})\).*/\1/' || true)
+# The bundle ID lives in the pbxproj so this script keeps working after the
+# placeholder is replaced with the real one.
+BUNDLE_ID=$(grep -m1 -E 'PRODUCT_BUNDLE_IDENTIFIER = [^;]*;' MorseBeacon.xcodeproj/project.pbxproj \
+  | sed -E 's/.*= (.*);/\1/')
+
+# App Store Connect requires the 6.9" iPhone size (1320x2868) and accepts
+# nothing smaller as the mandatory set, so prefer a Pro Max simulator.
+# Override with SIM=<udid>.
+SIM="${SIM:-}"
+if [[ -z "$SIM" ]]; then
+  SIM=$(xcrun simctl list devices available | grep -E '^[[:space:]]+iPhone [0-9]+ Pro Max ' | head -1 \
+    | sed -E 's/.*\(([A-F0-9-]{36})\).*/\1/' || true)
+fi
 if [[ -z "$SIM" ]]; then
   SIM=$(xcrun simctl list devices available | grep -E '^[[:space:]]+iPhone ' | head -1 \
     | sed -E 's/.*\(([A-F0-9-]{36})\).*/\1/')
+fi
+if ! xcrun simctl list devices booted | grep -q "$SIM"; then
   echo "Booting simulator $SIM..."
   xcrun simctl boot "$SIM"
   sleep 3
@@ -45,7 +57,7 @@ if [[ -z "$APP" ]]; then
   exit 1
 fi
 
-xcrun simctl uninstall "$SIM" com.example.morsebeacon 2>/dev/null || true
+xcrun simctl uninstall "$SIM" "$BUNDLE_ID" 2>/dev/null || true
 xcrun simctl install "$SIM" "$APP"
 
 capture() {
@@ -53,13 +65,13 @@ capture() {
   local name="$2"
   local out="$OUT_DIR/$name.png"
 
-  xcrun simctl terminate "$SIM" com.example.morsebeacon 2>/dev/null || true
+  xcrun simctl terminate "$SIM" "$BUNDLE_ID" 2>/dev/null || true
 
   if [[ -n "$route" ]]; then
-    SIMCTL_CHILD_MB_LAUNCH_TO="$route" xcrun simctl launch "$SIM" com.example.morsebeacon \
+    SIMCTL_CHILD_MB_LAUNCH_TO="$route" xcrun simctl launch "$SIM" "$BUNDLE_ID" \
       > /dev/null
   else
-    xcrun simctl launch "$SIM" com.example.morsebeacon > /dev/null
+    xcrun simctl launch "$SIM" "$BUNDLE_ID" > /dev/null
   fi
 
   # Generous settle time so SwiftUI completes the first render and
@@ -75,7 +87,7 @@ capture() {
 set_default() {
   local key="$1"
   shift
-  xcrun simctl spawn "$SIM" defaults write com.example.morsebeacon "$key" "$@" \
+  xcrun simctl spawn "$SIM" defaults write "$BUNDLE_ID" "$key" "$@" \
     >/dev/null 2>&1
 }
 
@@ -84,7 +96,7 @@ set_default_int() {
 }
 
 delete_default() {
-  xcrun simctl spawn "$SIM" defaults delete com.example.morsebeacon "$1" 2>/dev/null || true
+  xcrun simctl spawn "$SIM" defaults delete "$BUNDLE_ID" "$1" 2>/dev/null || true
 }
 
 # 0. Photosensitivity warning (no ack stored). Default route.
@@ -120,7 +132,7 @@ echo "[5] Finished..."
 capture "finished" "5-finished"
 
 # Cleanup
-xcrun simctl terminate "$SIM" com.example.morsebeacon 2>/dev/null || true
+xcrun simctl terminate "$SIM" "$BUNDLE_ID" 2>/dev/null || true
 
 echo
 echo "All screenshots written to $OUT_DIR/"

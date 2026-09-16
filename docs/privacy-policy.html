@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — Morse Beacon</title>
+<style>
+  body { max-width: 42rem; margin: 2rem auto; padding: 0 1rem; font: 17px/1.55 -apple-system, system-ui, sans-serif; color: #111; background: #fff; }
+  h1 { font-size: 1.6rem; } h2 { font-size: 1.2rem; margin-top: 2rem; }
+  code { font-family: ui-monospace, Menlo, monospace; font-size: 0.9em; background: #f2f2f2; padding: 0 .25em; border-radius: 3px; }
+  @media (prefers-color-scheme: dark) { body { color: #eee; background: #111; } code { background: #222; } }
+</style>
+</head>
+<body>
+<h1>Privacy Policy — Morse Beacon</h1>
+<p><strong>Effective date:</strong> [date of first App Store release]<br><strong>Author:</strong> Vincent Bruijn (<a href="mailto:vincent@vincentbruijn.nl">vincent@vincentbruijn.nl</a>)</p>
+<p>This is the privacy policy for the iOS app <strong>Morse Beacon</strong>. It is short because the app collects nothing and sends nothing.</p>
+<h2>What data we collect</h2>
+<p><strong>None.</strong></p>
+<p>Specifically:</p>
+<ul>
+<li>We do <strong>not</strong> collect any personal information.</li>
+<li>We do <strong>not</strong> collect any usage data, analytics, or telemetry.</li>
+<li>We do <strong>not</strong> track you across apps or websites.</li>
+<li>We do <strong>not</strong> use cookies, advertising identifiers, or any other identifiers.</li>
+<li>We do <strong>not</strong> use the camera, microphone, location services, contacts, photos, or any other sensitive data source.</li>
+<li>We do <strong>not</strong> use any third-party SDKs or libraries.</li>
+</ul>
+<h2>What data we store</h2>
+<p><strong>Locally on your device only:</strong></p>
+<ul>
+<li>Your last typed message (so it's there when you reopen the app).</li>
+<li>Your timing preferences (PARIS or Farnsworth, words-per-minute).</li>
+<li>A flag recording that you've acknowledged the photosensitivity warning, so we don't show it on every launch.</li>
+</ul>
+<p>These are stored using Apple's standard <code>UserDefaults</code> mechanism, which writes them to your device's local app sandbox. They never leave your device. There is no cloud sync, no backup to our servers (we have no servers), and no way for us to access this data.</p>
+<h2>What we send over the network</h2>
+<p><strong>Nothing.</strong></p>
+<p>The app makes no network calls of any kind. This is enforced at the build level: a CI check (<code>scripts/check-no-network.sh</code>) fails the build if any networking primitive (<code>URLSession</code>, <code>URLRequest</code>, <code>Network</code> framework, etc.) is referenced anywhere in the source code.</p>
+<p>The only <code>URL</code> the app uses is <code>mailto:vincent@vincentbruijn.nl</code> on the About screen. Tapping that opens your device's Mail app; the Morse Beacon app itself does not send the email.</p>
+<h2>Children's privacy</h2>
+<p>The app is suitable for all ages. It collects no data, so the COPPA / GDPR-K rules around children's data simply do not apply.</p>
+<p>The app does include a photosensitivity warning at first launch because rapid flashing light can trigger seizures in people with photosensitive epilepsy. The warning must be explicitly acknowledged before any flashing occurs. Adult supervision of younger users is recommended for any app or content with flashing visuals.</p>
+<h2>Changes to this policy</h2>
+<p>If a future version of the app starts collecting data (it won't, but just in case), this policy will be updated and the change date noted above. The first release commits to the "no data collection" stance described here.</p>
+<h2>Contact</h2>
+<p>Privacy questions: <strong><a href="mailto:vincent@vincentbruijn.nl">vincent@vincentbruijn.nl</a></strong></p>
+</body>
+</html>

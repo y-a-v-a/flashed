@@ -1,7 +1,7 @@
 # Privacy Policy — Morse Beacon
 
 **Effective date:** [date of first App Store release]
-**Author:** Vincent Bruijn (info@vincentbruijn.nl)
+**Author:** Vincent Bruijn (vincent@vincentbruijn.nl)
 
 This is the privacy policy for the iOS app **Morse Beacon**. It is
 short because the app collects nothing and sends nothing.
@@ -44,7 +44,7 @@ build level: a CI check (`scripts/check-no-network.sh`) fails the
 build if any networking primitive (`URLSession`, `URLRequest`,
 `Network` framework, etc.) is referenced anywhere in the source code.
 
-The only `URL` the app uses is `mailto:info@vincentbruijn.nl` on the
+The only `URL` the app uses is `mailto:vincent@vincentbruijn.nl` on the
 About screen. Tapping that opens your device's Mail app; the
 Morse Beacon app itself does not send the email.
 
@@ -68,4 +68,4 @@ described here.
 
 ## Contact
 
-Privacy questions: **info@vincentbruijn.nl**
+Privacy questions: **vincent@vincentbruijn.nl**

@@ -39,6 +39,7 @@
 		200D000000000000000000D0 /* MorseBeaconApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D0 /* MorseBeaconApp.swift */; };
 		200D000000000000000000D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D2 /* Assets.xcassets */; };
 		200D000000000000000000D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D3 /* Preview Assets.xcassets */; };
+		200D000000000000000000D4 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 100D000000000000000000D4 /* PrivacyInfo.xcprivacy */; };
 		200E000000000000000000E0 /* MorseBeaconTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100E000000000000000000E0 /* MorseBeaconTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +87,7 @@
 		100D000000000000000000D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		100D000000000000000000D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		100D000000000000000000D3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		100D000000000000000000D4 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		100E000000000000000000E0 /* MorseBeaconTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MorseBeaconTests.swift; sourceTree = "<group>"; };
 		100F000000000000000000F0 /* MorseBeacon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MorseBeacon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		100F000000000000000000F1 /* MorseBeaconTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MorseBeaconTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,7 +111,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F00000000000000000000001 /* Main */ = {
+		F00000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
 				F00000000000000000000003 /* MorseBeacon */,
@@ -137,6 +139,7 @@
 				100D000000000000000000D2 /* Assets.xcassets */,
 				F00000000000000000000007 /* PreviewContent */,
 				100D000000000000000000D1 /* Info.plist */,
+				100D000000000000000000D4 /* PrivacyInfo.xcprivacy */,
 			);
 			path = MorseBeacon;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 			files = (
 				200D000000000000000000D3 /* Preview Assets.xcassets in Resources */,
 				200D000000000000000000D2 /* Assets.xcassets in Resources */,
+				200D000000000000000000D4 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,15 +489,18 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MorseBeacon/PreviewContent\"";
+				DEVELOPMENT_TEAM = HFFHH9CJYF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = MorseBeacon/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Flashed: Morse Beacon";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.morsebeacon;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.vincentbruijn.morsebeacon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -513,15 +520,18 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MorseBeacon/PreviewContent\"";
+				DEVELOPMENT_TEAM = HFFHH9CJYF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = MorseBeacon/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Flashed: Morse Beacon";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.morsebeacon;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.vincentbruijn.morsebeacon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -542,7 +552,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.morsebeacon.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.vincentbruijn.morsebeacon.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -560,7 +570,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.morsebeacon.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = nl.vincentbruijn.morsebeacon.tests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;

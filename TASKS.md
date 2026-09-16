@@ -22,8 +22,8 @@ it by path.
 - [x] 0.5 `.swift-format` at repo root with the dumped default config (2-space indent, 100-col line, ordered imports, etc.). `scripts/format.sh` runs `swift-format format -i` on all 30 Swift files; `scripts/check-format.sh` runs `swift-format lint --strict` (CI-ready) and is wired into `check-all.sh`. One-shot reformatted all existing files (4-space → 2-space + minor adjustments); 99/99 SwiftPM tests + iOS build still green.
 - [x] 0.6 `MorseBeaconTests` Xcode target created with `MorseBeaconTests.swift` stub (one trivial `XCTAssertTrue(true)` test, documented as a placeholder for future iOS-only tests). Test target uses `BUNDLE_LOADER` / `TEST_HOST` to host on `MorseBeacon.app`. The 99 SwiftPM unit tests at `MorseBeaconTests/{Core,Runtime}/` are NOT part of this Xcode target — they import `Core` / `Runtime` as separate SwiftPM modules, while the Xcode app is monolithic `MorseBeacon`. iOS-only tests added later will use `@testable import MorseBeacon`. `MorseBeaconUITests` target deferred until an AC actually requires UI tests.
 - [ ] 0.7 Decide: extract `Core/` as a local SwiftPM package at `Core-Package/` for fast `swift test` loop if Xcode test turnaround > 10s (per CLAUDE.md "What to run"). Defer until measured. When/if done, `MorseBeacon/Core/` is removed and the app target depends on the package.
-  - *Note (2026-04-22):* a development-only `Package.swift` overlay exists at repo root pointing SwiftPM at `MorseBeacon/Core/` and `MorseBeaconTests/Core/` via explicit `path:`. This is NOT the 0.7 extraction — no files are moved, no `Core-Package/` exists. The overlay lets Core tests run via `swift test` before the Xcode project exists. It coexists with the future Xcode target and will be replaced by the real package if/when 0.7 is triggered.
-- [x] 0.8 Add `.gitignore` (Xcode, SwiftPM, DerivedData, xcuserdata, `.DS_Store`). *(commit 191df2b)*
+  - _Note (2026-04-22):_ a development-only `Package.swift` overlay exists at repo root pointing SwiftPM at `MorseBeacon/Core/` and `MorseBeaconTests/Core/` via explicit `path:`. This is NOT the 0.7 extraction — no files are moved, no `Core-Package/` exists. The overlay lets Core tests run via `swift test` before the Xcode project exists. It coexists with the future Xcode target and will be replaced by the real package if/when 0.7 is triggered.
+- [x] 0.8 Add `.gitignore` (Xcode, SwiftPM, DerivedData, xcuserdata, `.DS_Store`). _(commit 191df2b)_
 - [x] 0.9 `scripts/check-core-purity.sh` greps `MorseBeacon/Core/` for forbidden tokens. Final list: `import UIKit`, `import SwiftUI`, `import Combine`, `import Dispatch`, `Foundation.Timer`, `NSTimer`, `Timer(`, `DispatchQueue`, `DispatchSource`, `DispatchTime`, `CFAbsoluteTime`, `CFRunLoop`, `RunLoop.`. Exit non-zero on any hit. Currently passing on 10 Core files.
 - [x] 0.10 `scripts/check-screen-isolation.sh` greps the app target for `UIScreen.` and `UIApplication.shared.isIdleTimerDisabled` (qualified access patterns, to avoid false positives in doc comments and on our own protocol). Allows matches only in `MorseBeacon/Runtime/UIKitScreenProxy.swift` — sharper than the original "only ScreenController" rule because the controller is now pure logic delegating to a proxy. LAYOUT.md updated.
 
@@ -40,8 +40,8 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 
 ### 1.1 Morse table
 
-- [x] 1.1.1 Test: every character in FR-1 allowed set has a mapping; disallowed chars don't. *(MorseTableTests: `test_supports_*`)*
-- [x] 1.1.2 Test: spot-check well-known encodings (A = `·−`, N = `−·`, SOS = `···/−−−/···`, `?` = `··−−··`). *(MorseTableTests: `test_symbols_*`)*
+- [x] 1.1.1 Test: every character in FR-1 allowed set has a mapping; disallowed chars don't. _(MorseTableTests: `test*supports*_`)\*
+- [x] 1.1.2 Test: spot-check well-known encodings (A = `·−`, N = `−·`, SOS = `···/−−−/···`, `?` = `··−−··`). _(MorseTableTests: `test*symbols*_`)\*
 - [x] 1.1.3 Implement `MorseTable` as a `[Character: [MorseSymbol]]` where `MorseSymbol` is `.dit | .dah`. Plus `supports(_:)` as single source of truth for R2. 15/15 tests passing in 3ms.
 
 ### 1.2 Element kinds and timed elements
@@ -57,7 +57,7 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 - [x] 1.3.4 Test: encoding `"E E"` (with space) → `dit, wordGap, dit`.
 - [x] 1.3.5 Test: encoding `"AN"` → `dit, intraGap, dah, charGap, dah, intraGap, dit` with right indices.
 - [x] 1.3.6 Test: lowercase normalized to uppercase produces identical output to uppercase.
-- [x] 1.3.7 Per R2: `MorseTable.supports(_ c: Character) -> Bool` exists; tests cover the full FR-1 set and representative rejections. *(covered in 1.1)*
+- [x] 1.3.7 Per R2: `MorseTable.supports(_ c: Character) -> Bool` exists; tests cover the full FR-1 set and representative rejections. _(covered in 1.1)_
 - [x] 1.3.8 Per R2: `struct ValidatedMessage` with throwing init; tests cover accept valid, reject with correct index, case normalization, 160-char cap, and "first bad char wins" semantics.
 - [x] 1.3.9 Test: `sourceCharIndex` is nil for `charGap`/`wordGap`, non-nil for dit/dah/intraGap.
 - [x] 1.3.10 Test: `elementIndexInMessage` is monotonically increasing by 1 from 0.
@@ -112,9 +112,10 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 - [x] 2.2.7 `FakeClock` lets tests advance virtual time synchronously. Ticks fire at correct offsets for E, AN, and HELLO schedules. State stream observable via `tx.$state.sink`.
 - [x] 2.2.8 `test_abortDuringTransmission_stopsRemainingTicks` and `test_abortDuringCountdown_setsAbortedAndCancelsPending` cover both phases. Generation counter ensures stale callbacks become no-ops.
 - [x] 2.2.9 `test_finishedPublishedExactlyOnce` verifies `.finished` is emitted once at `t0 + schedule.totalDurationMs` and not republished by later clock advancement.
-- [ ] 2.2.10 Instrumented on-device test for jitter: log `DispatchTime.now()` deltas, assert < 10 ms jitter per flip on iPhone 12+ (FR-12). Document results in `docs/timing.md`. *(Deferred until iOS device available; needs real Xcode project per task 0.1.)*
+- [ ] 2.2.10 Instrumented on-device test for jitter: log `DispatchTime.now()` deltas, assert < 10 ms jitter per flip on iPhone 12+ (FR-12). Document results in `docs/timing.md`. _(Deferred until iOS device available; needs real Xcode project per task 0.1.)_
 
 **Implementation notes:**
+
 - Restart-after-terminal-state semantics needed care. First attempt used a setState guard that suppressed transitions from `.aborted`/`.finished`, which also blocked legitimate restarts ("Transmit again"). Replaced with a generation counter: each `start()` / `abort()` bumps it; callbacks check it before mutating. Stale callbacks become no-ops. Cleaner and race-safe against `DispatchClock` callbacks already in flight.
 - 13 new tests, 99 total Core+Runtime tests passing. Total line coverage 98.54% (Transmitter at 97.56%).
 
@@ -134,7 +135,7 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 
 - [x] 3.1.1 `MorseBeaconApp` with single `WindowGroup` hosting `RootView`.
 - [x] 3.1.2 `RootView` reads `@AppStorage("safetyAcknowledgedV1")` and shows `SafetyWarningView` when false, an `InputPlaceholderView` (replaced by `InputView` in 3.3) when true.
-- [ ] 3.1.3 Inject shared `Transmitter`, `SettingsStore`, `ScreenController` into environment. *(Deferred until first consumer view needs them; 3.3 InputView will trigger this.)*
+- [ ] 3.1.3 Inject shared `Transmitter`, `SettingsStore`, `ScreenController` into environment. _(Deferred until first consumer view needs them; 3.3 InputView will trigger this.)_
 
 ### 3.2 `SafetyWarningView`
 
@@ -189,6 +190,7 @@ Rules: `Int` milliseconds, deterministic, tests before code.
 - [x] 3.6.10 Backgrounding wired in `MorseBeaconApp.body` via `transmitter.observeBackgrounding()`, token retained in `@State backgroundingToken: NSObjectProtocol?` for app lifetime. Transmitter's `abort()` triggers on `UIApplication.didEnterBackgroundNotification`; container dismisses on `.aborted`. Phone-call interruption deferred (PRD doesn't specify; AVAudioSession not yet involved since no audio channel). **Fixed post-hoc (review):** the observed transmitter was a second instance private to the app struct while `RootView` created its own — the observer never covered the transmitter actually transmitting. `RootView` now receives the app-level `SettingsStore`/`Transmitter` instead of owning duplicates; AC-5 (5.5) still needs its on-device pass.
 
 **Visual verification:** screenshotted via `MB_LAUNCH_TO=beacon` (sample SOS PARIS @ 5 WPM transmission). Two screenshots 1s apart caught:
+
 - Gap tick: HUD un-highlighted, flash area black.
 - Dah tick on 'O': HUD shows amber highlight on 'O' in line 1 and on the first '−' of '−−−' in line 2; flash area pure white.
 
@@ -201,12 +203,12 @@ This is the entire pipeline live: DispatchClock → Transmitter callback → sta
 ### 3.7 Visual polish pass
 
 - [x] 3.7.1 Dark-first palette: verified by `simctl ui appearance dark` then re-screenshotting Input. Black background, light text, dark `Color(.secondarySystemBackground)` editor, blue Transmit button, white-tinted gear icon. SwiftUI system materials adapt automatically. `BeaconView` already uses pure black/white directly so it's appearance-independent.
-- [ ] 3.7.2 Dynamic Type support for Input/Settings (not HUD — HUD is fixed monospace for legibility at distance). *(Most fonts already use system text styles; some explicit sizes in InputView/AboutView could be reviewed; deferred.)*
+- [ ] 3.7.2 Dynamic Type support for Input/Settings (not HUD — HUD is fixed monospace for legibility at distance). _(Most fonts already use system text styles; some explicit sizes in InputView/AboutView could be reviewed; deferred.)_
 - [x] 3.7.3 Accessibility labels added throughout: `accessibilityLabel` + `accessibilityHint` on Transmit button (state-aware), gear / (i) / Settings nav links, message editor, character counter, validation error message, countdown numeral. VoiceOver behavior for full screen-reader pass needs on-device verification.
 
 ### 3.8 About page (post-PRD addition)
 
-- [x] 3.8.1 `UI/AboutView.swift` showing app name (monospaced), version + build read from `Info.plist`, short description, author (Vincent Bruijn) + tappable `mailto:info@vincentbruijn.nl` link, and a Standards section citing ITU-R M.1677-1 and Bloom's Farnsworth method.
+- [x] 3.8.1 `UI/AboutView.swift` showing app name (monospaced), version + build read from `Info.plist`, short description, author (Vincent Bruijn) + tappable `mailto:vincent@vincentbruijn.nl` link, and a Standards section citing ITU-R M.1677-1 and Bloom's Farnsworth method.
 - [x] 3.8.2 Reachable from `SettingsView` via an `info.circle` toolbar item in the top-right (two-tap depth from InputView: gear → (i)).
 - [x] 3.8.3 `MB_LAUNCH_TO=about` route added for headless verification.
 - [x] 3.8.4 No PRD update required — About fits §3 navigation as a sub-screen of Settings; not in §2 non-goals; aligns with NFR-2 (no telemetry, no network) since `mailto:` opens Mail.app, not a network call from us.
@@ -233,7 +235,7 @@ This is the entire pipeline live: DispatchClock → Transmitter callback → sta
 - [ ] 6.4 `scripts/check-screen-isolation.sh` passes locally and in CI (enforces only `MorseBeacon/Runtime/ScreenController.swift` touches `UIScreen` / `isIdleTimerDisabled`).
 - [x] 6.5 Binary size < 5 MB (NFR-4). `scripts/measure-binary-size.sh` builds Release into a temp DerivedData, measures via `du -sk`. **Current: 1.9 MB** — well under threshold.
 - [ ] 6.6 Launch time < 500 ms on iPhone 12+ (NFR-1). Procedure in `docs/on-device-checklist.md` §4. Measure with Instruments App Launch template.
-- [x] 6.7 Confirm no network calls: `scripts/check-no-network.sh` greps the entire app target for networking primitives (URLSession, URLRequest, NSURL*, dataTask, CFNetwork, import Network, URLProtocol). Currently passes on 30 Swift files. Wired into `check-all.sh` and CI. The only `URL` in the app is `mailto:info@vincentbruijn.nl` in AboutView (not a network call).
+- [x] 6.7 Confirm no network calls: `scripts/check-no-network.sh` greps the entire app target for networking primitives (URLSession, URLRequest, NSURL\*, dataTask, CFNetwork, import Network, URLProtocol). Currently passes on 30 Swift files. Wired into `check-all.sh` and CI. The only `URL` in the app is `mailto:vincent@vincentbruijn.nl` in AboutView (not a network call).
 - [x] 6.8 App Store metadata drafted in `docs/app-store.md`: description, subtitle, keywords, what's-new, privacy nutrition label (all "Data Not Collected" — enforced by `check-no-network.sh`), age rating walk-through, reviewer notes, screenshot procedure. Privacy policy in `docs/privacy-policy.md`. Final upload to App Store Connect pending real bundle ID + signing.
 - [ ] 6.9 TestFlight pass with at least one external tester doing a real night-time line-of-sight test. Final sign-off in `docs/on-device-checklist.md` §7.
 

@@ -50,10 +50,10 @@ struct AboutView: View {
   private var contactSection: some View {
     Section("Author") {
       LabeledContent("Name", value: "Vincent Bruijn")
-      if let mailURL = URL(string: "mailto:info@vincentbruijn.nl") {
+      if let mailURL = URL(string: "mailto:vincent@vincentbruijn.nl") {
         Link(destination: mailURL) {
           LabeledContent("Email") {
-            Text("info@vincentbruijn.nl")
+            Text("vincent@vincentbruijn.nl")
               .foregroundStyle(.tint)
           }
         }

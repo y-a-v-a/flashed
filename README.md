@@ -10,7 +10,7 @@
 > **Photosensitivity.** This app produces rapid flashing light that may trigger
 > seizures in people with photosensitive epilepsy. Do not use it if you, or
 > anyone who can see the screen, is affected. The app gates first launch behind
-> an explicit acknowledgement and caps the flash rate when *Reduce Motion* is on
+> an explicit acknowledgement and caps the flash rate when _Reduce Motion_ is on
 > — but the responsibility to use it safely is the operator's.
 
 ---
@@ -33,23 +33,23 @@ Two principles fall out of that goal and shape everything else:
 
 - **It is an emitter, not a transceiver.** The app does not listen, decode, or
   record — there is no camera, no microphone, no history. A beacon you can trust
-  is a beacon that obviously *cannot* be doing anything else. That single
+  is a beacon that obviously _cannot_ be doing anything else. That single
   decision is why there is no network code, no permissions prompt, and nothing
   to sign in to.
 
 - **The timing is the product.** A flashing screen is only useful if a human can
-  *decode* it. That means the gap between two dits has to be reliably shorter
+  _decode_ it. That means the gap between two dits has to be reliably shorter
   than the gap between two letters, every time, regardless of what the UI is
   doing. Everything in the architecture below exists to protect that one
   property.
 
 This is v1: optical only. The same engine is designed to drive **haptic** and
-**audio** channels next *without* a rewrite — the reasoning is in
+**audio** channels next _without_ a rewrite — the reasoning is in
 [How it works](#how-it-works) and the plan in [Roadmap](#roadmap).
 
 ## How it works
 
-The product *is* a timing engine with a flashlight bolted on. The codebase is
+The product _is_ a timing engine with a flashlight bolted on. The codebase is
 organised so the engine can be reasoned about and tested in complete isolation
 from the phone.
 
@@ -71,8 +71,8 @@ Four design decisions carry the whole thing:
 
 **1. The schedule is channel-agnostic.**
 `Core/` encodes a message into a flat stream of `ScheduleTick`s. A tick is a
-*span*, not an edge: it says "the channel is **on** from millisecond X for Y
-milliseconds," and nothing about *what* "on" means. The optical flash is just
+_span_, not an edge: it says "the channel is **on** from millisecond X for Y
+milliseconds," and nothing about _what_ "on" means. The optical flash is just
 one subscriber that paints white when a tick is on. A haptic buzz or an audio
 tone are other subscribers to the same stream. Because a tick is fully
 self-describing, no emitter ever has to peek at the next tick to know when the
@@ -87,7 +87,7 @@ another." Incremental sleeps accumulate drift; under UI load that drift is the
 difference between a readable message and gibberish. Absolute deadlines anchored
 to a single reference time keep per-flash jitter inside the target of <10 ms.
 This is also why `Core/` is forbidden from importing `Timer` — the clock is
-injected, so tests run the entire schedule in synchronous *virtual* time and
+injected, so tests run the entire schedule in synchronous _virtual_ time and
 assert exact millisecond offsets.
 
 **3. Timing accuracy is a test invariant, not an aspiration.**
@@ -97,19 +97,19 @@ one dit = `1200 / wpm` ms. The test suite pins this directly — encoding
 `"PARIS "` at 20 WPM must total **3000 ms** to the millisecond. Any change to
 the timing code that breaks that number breaks the build. The app supports both
 the standard **PARIS** model and the **Farnsworth** model (full-speed characters
-with stretched gaps, for learners), and Farnsworth is proven to reduce *exactly*
+with stretched gaps, for learners), and Farnsworth is proven to reduce _exactly_
 to PARIS when the two speeds are equal.
 
 **4. Invalid input is unrepresentable downstream.**
 The only way to get a message into the engine is to construct a
 `ValidatedMessage`, whose initializer rejects any unsupported character and
-reports the offending index. Past that boundary the encoder is *total* — it
+reports the offending index. Past that boundary the encoder is _total_ — it
 cannot fail, has no error path, and needs no defensive checks. The UI builds a
 `ValidatedMessage` as you type, so the "Transmit" button is simply disabled
 until what you have is something the engine can guarantee it can send.
 
 The single source of truth for playback state is one object, `Transmitter`. It
-publishes its state; views *observe* it. No view runs its own timer. When you
+publishes its state; views _observe_ it. No view runs its own timer. When you
 tap to abort, one synchronous state change unwinds everything — and a generation
 counter makes any timer callback still in flight from the old run a harmless
 no-op. Brightness and the idle timer are touched through exactly one file
@@ -130,7 +130,7 @@ anywhere; it's a single self-contained file).
 1. **Acknowledge the safety warning** (first launch only).
 2. **Type a message** — up to 160 characters (see [`PRD.md`](PRD.md) for the
    exact supported set). Inline validation flags the first unsupported character
-   and keeps *Transmit* disabled until the message is something the engine can
+   and keeps _Transmit_ disabled until the message is something the engine can
    guarantee it can send. Your last message is remembered between launches.
 3. **Tap Transmit** → a **5-second countdown** gives you time to aim the phone
    and warn bystanders. Tap anywhere to cancel.
@@ -143,7 +143,7 @@ anywhere; it's a single self-contained file).
    your original brightness restored.
 
 Speed and model live in **Settings** (gear icon): PARIS or Farnsworth, character
-WPM 5–20, and a Farnsworth effective-WPM slider. With *Reduce Motion* enabled,
+WPM 5–20, and a Farnsworth effective-WPM slider. With _Reduce Motion_ enabled,
 the maximum speed is capped at 10 WPM for a gentler flash.
 
 Screenshots of all five screens (safety gate, input, settings, countdown,
@@ -184,12 +184,12 @@ The architecture rules in [`CLAUDE.md`](CLAUDE.md) are not honour-system: each i
 an executable gate that fails [CI](.github/workflows/ci.yml), so the boundaries
 can't quietly erode.
 
-| Gate (enforced in CI) | What it guarantees |
-|---|---|
-| `check-core-purity.sh` | `Core/` imports no UIKit/SwiftUI/`Timer`/`Dispatch` |
-| `check-screen-isolation.sh` | only `UIKitScreenProxy` touches brightness / idle timer |
-| `check-no-network.sh` | no networking primitive anywhere in the app target |
-| `check-format.sh` | `swift-format lint --strict` is clean |
+| Gate (enforced in CI)         | What it guarantees                                            |
+| ----------------------------- | ------------------------------------------------------------- |
+| `check-core-purity.sh`        | `Core/` imports no UIKit/SwiftUI/`Timer`/`Dispatch`           |
+| `check-screen-isolation.sh`   | only `UIKitScreenProxy` touches brightness / idle timer       |
+| `check-no-network.sh`         | no networking primitive anywhere in the app target            |
+| `check-format.sh`             | `swift-format lint --strict` is clean                         |
 | `swift test` + `build-ios.sh` | the 109-test suite passes; the app compiles for the simulator |
 
 Two further scripts are run **manually** (not in CI): `measure-core-coverage.sh`
@@ -238,11 +238,11 @@ These are physics and OS behaviour, not bugs — document, don't fight them:
 ## Roadmap
 
 Both ride the same channel-agnostic schedule (How it works #1) — they are new
-*emitters*, not new engines:
+_emitters_, not new engines:
 
 - **Phase 2 — Haptic.** Press the phone against a rigid conductor (a pipe, a
   wall stud, a door) and the Taptic Engine couples Morse into the structure.
-  This signals *through* walls and floors, and works where light is unwanted
+  This signals _through_ walls and floors, and works where light is unwanted
   (covert) or useless (fog, daylight).
 - **Phase 3 — Audio.** A pure 600–800 Hz sidetone through the speaker carries
   Morse across open air, and doubles as a sensory-substitute output for people
@@ -259,7 +259,7 @@ was driven task-by-task from [`TASKS.md`](TASKS.md) — tests before code for
 every `Core/` behaviour, one committed task at a time. Much of that
 implementation work was done in pair with the **[pi](https://github.com/y-a-v-a)
 coding agent**, working through the task list under the architecture and style
-rules in `CLAUDE.md`. The result is a small codebase where the *reasoning*
+rules in `CLAUDE.md`. The result is a small codebase where the _reasoning_
 behind each decision is written down next to it — which is the point.
 
 ## Standards & references
@@ -277,4 +277,4 @@ fork, and build on it freely; keep the copyright notice; no warranty.
 
 ## Author
 
-© 2026 Vincent Bruijn · [vincentbruijn.nl](https://vincentbruijn.nl) · [info@vincentbruijn.nl](mailto:info@vincentbruijn.nl)
+© 2026 Vincent Bruijn · [vincentbruijn.nl](https://vincentbruijn.nl) · [vincent@vincentbruijn.nl](mailto:vincent@vincentbruijn.nl)

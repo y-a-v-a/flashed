@@ -5,16 +5,16 @@ Update version-specific fields (changelog, version number) per release.
 
 ## App information
 
-| Field | Value | Notes |
-|---|---|---|
-| **App Name** | Morse Beacon | Max 30 chars; using 12. |
-| **Subtitle** | Optical Morse signaling | Max 30 chars; using 23. |
-| **Bundle ID** | `com.example.morsebeacon` | Replace with your team's reverse-DNS before first archive. |
-| **Primary Category** | Utilities | |
-| **Secondary Category** | (none) | |
-| **Content Rights** | Original work; no third-party content. | |
-| **Pricing** | Free | No IAP. |
-| **Availability** | Worldwide | No reason to restrict. |
+| Field                  | Value                                  | Notes                                                      |
+| ---------------------- | -------------------------------------- | ---------------------------------------------------------- |
+| **App Name** | Flashed: Morse Beacon | Max 30 chars; using 21. "Morse Beacon" alone was taken; the home-screen name stays "Morse Beacon". |
+| **Subtitle**           | Optical Morse signaling                | Max 30 chars; using 23.                                    |
+| **Bundle ID** | `nl.vincentbruijn.morsebeacon` | Registered in the developer portal. |
+| **Primary Category**   | Utilities                              |                                                            |
+| **Secondary Category** | (none)                                 |                                                            |
+| **Content Rights**     | Original work; no third-party content. |                                                            |
+| **Pricing**            | Free                                   | No IAP.                                                    |
+| **Availability**       | Worldwide                              | No reason to restrict.                                     |
 
 ## Description (max 4000 chars)
 
@@ -30,7 +30,7 @@ Update version-specific fields (changelog, version number) per release.
 > Two timing models:
 > • PARIS — the standard ITU 1 WPM = "PARIS " per minute.
 > • Farnsworth — fast individual characters with stretched gaps,
->   suitable for slower receivers.
+> suitable for slower receivers.
 >
 > WPM range: 5 to 20. If Reduce Motion is enabled in iOS Accessibility
 > settings, the maximum is automatically capped at 10.
@@ -69,11 +69,11 @@ morse,beacon,signal,flashlight,communication,line of sight,emergency,utility,tor
 
 ## URLs
 
-| Field | Value |
-|---|---|
-| **Support URL** | (set to project repo or `mailto:info@vincentbruijn.nl`) |
-| **Marketing URL** | (optional; leave blank for v1) |
-| **Privacy Policy URL** | Required by App Store. Source text in `docs/privacy-policy.md`; host as static HTML on the author's site (e.g., `vincentbruijn.nl/morse-beacon/privacy/`) and put that URL here. The policy is short: "We collect no data." |
+| Field                  | Value                                                                                                                                                                                                                       |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Support URL**        | (set to project repo or `mailto:vincent@vincentbruijn.nl`)                                                                                                                                                                  |
+| **Marketing URL**      | (optional; leave blank for v1)                                                                                                                                                                                              |
+| **Privacy Policy URL** | `https://www.vincentbruijn.nl/morse-beacon/privacy/privacy-policy.html` — source in `docs/privacy-policy.md`, rendered copy in `docs/privacy-policy.html`. Re-upload both after any edit. |
 
 ## Privacy nutrition label
 
@@ -96,10 +96,11 @@ Apple's data-collection questionnaire. Every category answers
 - ❌ Other Data
 
 This is enforced in code:
+
 - No `URLSession` / `URLRequest` / `Network` / `CFNetwork` references
   (verified by `scripts/check-no-network.sh`, run in CI).
 - No analytics SDKs (no third-party deps at all).
-- The only `URL` in the app is `mailto:info@vincentbruijn.nl` in
+- The only `URL` in the app is `mailto:vincent@vincentbruijn.nl` in
   `AboutView`, which opens the user's mail client; the app itself
   does not send anything.
 
@@ -125,17 +126,22 @@ field. Answer all categories honestly:
 Expected rating: **4+**. The photosensitivity warning is communicated
 in the description and at first-launch in-app, not via age rating.
 
-## Screenshots (TODO before submission)
+## Screenshots
 
-iOS App Store requires at minimum:
-- iPhone 6.7" display (1290 × 2796 or 1284 × 2778)
-- iPhone 6.5" display (1242 × 2688)
+App Store Connect requires one mandatory iPhone set at the 6.9" size
+(1320 × 2868, i.e. an iPhone 17 Pro Max simulator). Apple scales it
+down for every smaller display. iPad is not needed since the app is
+iPhone-only (`TARGETED_DEVICE_FAMILY = 1`).
 
-Plus optionally iPad if we ever support it (we don't, per PRD).
+`scripts/take-screenshots.sh` produces the full set in `docs/screenshots/`
+at that size, preferring a Pro Max simulator automatically. Upload
+files 0–5 from there; a good order is 1, 4, 3, 2, 0, 5 (input first,
+then the beacon in action, then the safety gate).
 
-Suggested screenshots, all takable headlessly via:
+Under the hood each screen is reached via:
+
 ```sh
-SIMCTL_CHILD_MB_LAUNCH_TO=<route> xcrun simctl launch booted com.example.morsebeacon
+SIMCTL_CHILD_MB_LAUNCH_TO=<route> xcrun simctl launch booted <bundle id>
 xcrun simctl io booted screenshot screenshot-N.png
 ```
 
@@ -163,17 +169,22 @@ xcrun simctl io booted screenshot screenshot-N.png
 
 ## Required-by-Apple checks before submission
 
-- [ ] Bundle ID changed from `com.example.morsebeacon` to a real one.
-- [ ] Signing team set in Xcode project.
-- [ ] App icon: `MorseBeacon/Assets.xcassets/AppIcon.appiconset/icon-1024.png`
-      verified at 1024×1024 (run `./scripts/generate-app-icon.swift`
-      to regenerate).
+- [x] Bundle ID set to `nl.vincentbruijn.morsebeacon`.
+- [x] Signing team set in Xcode project.
+- [x] App icon: `MorseBeacon/Assets.xcassets/AppIcon.appiconset/icon-1024.png`
+      is 1024×1024 with no alpha channel (App Store Connect rejects
+      transparency). `./scripts/generate-app-icon.swift` regenerates it.
+- [x] Privacy manifest `MorseBeacon/PrivacyInfo.xcprivacy` declares the
+      `UserDefaults` required-reason API (CA92.1). Without it the upload
+      is rejected with ITMS-91053.
+- [x] `ITSAppUsesNonExemptEncryption = NO` in `Info.plist`, so App Store
+      Connect never asks the export-compliance question per build.
 - [ ] Version + build numbers in pbxproj match what Apple expects
       (every build uploaded to App Store Connect must have a unique
       `CURRENT_PROJECT_VERSION`).
-- [ ] Screenshots captured per "Screenshots" section above.
-- [ ] Privacy Policy URL hosted somewhere (a static HTML page on the
-      author's site, linked in App Store Connect).
+- [x] Screenshots captured per "Screenshots" section above (6.9" set).
+- [x] Privacy Policy URL hosted at
+      `https://www.vincentbruijn.nl/morse-beacon/privacy/privacy-policy.html`.
 - [ ] First TestFlight build submitted and self-tested on a real
       device for FR-12 jitter (TASKS 2.2.10) and AC-1/AC-2/AC-3/AC-5
       verification (TASKS 5.1–5.5).

@@ -33,7 +33,9 @@ guard
     bitsPerComponent: 8,
     bytesPerRow: 0,
     space: CGColorSpaceCreateDeviceRGB(),
-    bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+    // noneSkipLast: App Store Connect rejects a marketing icon that carries an
+    // alpha channel, even a fully opaque one.
+    bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
 else {
   FileHandle.standardError.write("Failed to create CGContext\n".data(using: .utf8)!)
   exit(1)
