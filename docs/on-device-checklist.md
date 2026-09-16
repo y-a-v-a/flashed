@@ -498,17 +498,17 @@ per §5.3 above.
 
 When all of the above pass:
 
-- [ ] Smoke test (§1) all green
+- [x] Smoke test (§1) all green — TestFlight build 0.1 (1) on iPhone 16, 2026-09-16
 - [ ] AC-1, AC-2, AC-3, AC-5 (§2) verified on iPhone 12 or newer
 - [ ] FR-10, FR-11, FR-12, FR-22 (§3) verified
 - [ ] NFR-1, NFR-4 (§4) verified
 - [ ] Gotchas (§5) documented or accepted
 - [ ] Edge cases (§6) tested
 - [ ] Timing instrumentation removed from `Transmitter.swift`
-- [ ] Bundle ID is the real production one, not `com.example.morsebeacon`
-- [ ] Privacy policy hosted at the URL in App Store Connect
-- [ ] Screenshots regenerated at App Store-required resolutions
-      (`./scripts/take-screenshots.sh` after booting a 6.7" sim)
+- [x] Bundle ID is the real production one (`nl.vincentbruijn.morsebeacon`)
+- [x] Privacy policy hosted at the URL in App Store Connect
+- [x] Screenshots regenerated at App Store-required resolutions
+      (`./scripts/take-screenshots.sh` picks a 6.9" Pro Max sim itself)
 - [ ] First TestFlight build distributed to at least one external
       tester for a real-world night-time line-of-sight test
 
