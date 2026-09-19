@@ -1,6 +1,6 @@
 # Privacy Policy — Morse Beacon
 
-**Effective date:** [date of first App Store release]
+**Effective date:** 2026-09-19
 **Author:** Vincent Bruijn (vincent@vincentbruijn.nl)
 
 This is the privacy policy for the iOS app **Morse Beacon**. It is
