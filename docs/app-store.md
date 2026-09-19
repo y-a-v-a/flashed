@@ -138,6 +138,13 @@ at that size, preferring a Pro Max simulator automatically. Upload
 files 0–5 from there; a good order is 1, 4, 3, 2, 0, 5 (input first,
 then the beacon in action, then the safety gate).
 
+App Store Connect shows one screenshot slot per display size, and the
+slot it opens by default is not always the 6.9" one. If the upload
+error lists 1242 × 2688 / 1284 × 2778, you are in the 6.5" slot: either
+switch to the 6.9" slot ("View All Sizes in Media Manager") or use the
+derived 1284 × 2778 set in `docs/screenshots/6.5-inch/`, which is the
+6.9" set scaled to width and cropped by 6 px top and bottom.
+
 Under the hood each screen is reached via:
 
 ```sh
