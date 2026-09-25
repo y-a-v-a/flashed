@@ -192,6 +192,6 @@ xcrun simctl io booted screenshot screenshot-N.png
 - [x] Screenshots captured per "Screenshots" section above (6.9" set).
 - [x] Privacy Policy URL hosted at
       `https://www.vincentbruijn.nl/morse-beacon/privacy/privacy-policy.html`.
-- [ ] First TestFlight build submitted and self-tested on a real
-      device for FR-12 jitter (TASKS 2.2.10) and AC-1/AC-2/AC-3/AC-5
-      verification (TASKS 5.1–5.5).
+- [x] First TestFlight build (0.1, build 1) self-tested on an iPhone 16
+      and submitted for review on 2026-09-25. The measured checks (FR-12
+      jitter, AC-1/AC-2/AC-3/AC-5) remain open in TASKS 2.2.10 and 5.1–5.5.
